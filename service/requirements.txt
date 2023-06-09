@@ -1,0 +1,5 @@
+web.py
+requests
+google-auth
+firebase-admin
+google-cloud-aiplatform

@@ -1,0 +1,7 @@
+curl -X POST http://localhost:8080/assistant/chat \
+  -H "Content-Type: application/json" \
+  -d '{"question":"what is the best AI model to recognize liver lesions?"}'
+
+curl -X POST https://llmservice-ghfontasua-ew.a.run.app/assistant/chat \
+  -H "Content-Type: application/json" \
+  -d '{"question":"what is the best AI model to recognize liver lesions?"}'
