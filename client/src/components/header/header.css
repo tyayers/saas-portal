@@ -21,21 +21,21 @@
 }
 
 .header_right_panel1 {
-  margin-top: 8px;
+  margin-top: 3px;
   margin-right: 24px;
 }
 
 .profile_button {
-  margin-top: 4px;
-  width: 34px;
-  height: 34px;
+  margin-top: 6px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   cursor: pointer;
 }
 
 .user_menu {
   position: absolute;
-  top: 45px;
+  top: 50px;
   z-index: 1;
 }
 

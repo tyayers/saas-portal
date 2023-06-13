@@ -5,14 +5,15 @@ import { InputButton } from "../../components/input-button/input-button";
 
 import box from "../../assets/box.svg";
 import flask from "../../assets/flask.svg";
-import { useState } from 'preact/hooks';
 import wand from "../../assets/wand.svg";
+import { useState } from 'preact/hooks';
 import { User, Auth } from "firebase/auth";
 
 import "./experiments-new.css"
 import { route } from "preact-router";
+import { ExperimentDefinition } from "../../types";
 
-export function NewExperiment(props: { path: string; user: User | undefined; auth: Auth; addExperiment: (experiment: { Name: string, Organs: string, Status: string, LastUpdated: string }) => void }) {
+export function NewExperiment(props: { path: string; user: User | undefined; auth: Auth; addExperiment: (experiment: ExperimentDefinition) => void }) {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -20,8 +21,10 @@ export function NewExperiment(props: { path: string; user: User | undefined; aut
 
   function addExperiment() {
 
-    var exp: { Name: string, Organs: string, Status: string, LastUpdated: string } = {
+    var exp: ExperimentDefinition = {
+      Id: name.toLowerCase().replace(" ", "_") + "_" + (new Date()).getTime().toString(),
       Name: name,
+      Description: "",
       Organs: organs,
       Status: "Created",
       LastUpdated: (new Date()).toString()

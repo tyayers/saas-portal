@@ -8,7 +8,7 @@ export function InputField(props: { id: string, placeholder: string, focus: bool
     // access the associated DOM element:
     if (props.focus)
       document.getElementById(props.id)?.focus();
-  }, [])
+  }, []);
 
   function onInput(value: string) {
     props.setValue(value)

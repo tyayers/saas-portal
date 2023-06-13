@@ -13,6 +13,9 @@ import { NewExperiment } from './views/experiments-new/experiments-new';
 
 import './main.css'
 import { useState } from 'preact/hooks';
+import { Experiment } from './views/experiment/experiment';
+import { ExperimentDefinition } from './types';
+import { Assistant } from './views/assistant/assistant';
 
 var config = {
   apiKey: "AIzaSyDWh5sExqNSMsT8Jj6-0q01j6KWL_UmX48",
@@ -74,14 +77,27 @@ function sendCancelEvent() {
 function Main() {
 
   const [experiments, setExperiments] = useState([{
+    Id: "Liver lesion test 1".toLowerCase().replaceAll(" ", "_") + "_" + (new Date()).getTime().toString(),
     Name: "Liver lesion test 1",
+    Description: "First test of a liver lesion detection model.",
     Organs: "Liver",
     Status: "Completed",
     LastUpdated: "Tue Jun 13 2023 09:41:32 GMT+0200 (Central European Summer Time)"
   }]);
 
-  function addExperiment(experiment: { Name: string, Organs: string, Status: string, LastUpdated: string }) {
-    var newExperiements = experiments;
+  function getExperiment(id: string): ExperimentDefinition | undefined {
+    var result = undefined;
+
+    for (var i = 0; i < experiments.length; i++) {
+      if (experiments[i].Id === id)
+        result = experiments[i];
+    }
+
+    return result;
+  }
+
+  function addExperiment(experiment: ExperimentDefinition) {
+    var newExperiements: ExperimentDefinition[] = experiments;
     newExperiements.push(experiment);
 
     setExperiments(newExperiements);
@@ -95,7 +111,9 @@ function Main() {
         <SignIn path="/sign-in" user={currentUser.value} auth={auth} />
         <Home path="/home" user={currentUser.value} auth={auth} />
         <Experiments path="/experiments" user={currentUser.value} auth={auth} experiments={experiments} />
+        <Experiment path="/experiments/:id" id="" user={currentUser.value} auth={auth} getExperiment={getExperiment} />
         <NewExperiment path="/new-experiment" user={currentUser.value} auth={auth} addExperiment={addExperiment} />
+        <Assistant path="/assistant" user={currentUser.value} auth={auth} />
       </Router>
     </div>
   );
