@@ -9,8 +9,10 @@ import { SignedOut } from './views/signed-out/signed-out';
 import { SignIn } from './views/sign-in/sign-in';
 import { Home } from './views/home/home';
 import { Experiments } from './views/experiments/experiments';
+import { NewExperiment } from './views/experiments-new/experiments-new';
 
 import './main.css'
+import { useState } from 'preact/hooks';
 
 var config = {
   apiKey: "AIzaSyDWh5sExqNSMsT8Jj6-0q01j6KWL_UmX48",
@@ -69,19 +71,35 @@ function sendCancelEvent() {
   document.dispatchEvent(event);
 }
 
-const Main = () => (
+function Main() {
 
-  <div onClick={() => { sendCancelEvent() }}>
-    {/* @ts-ignore */}
-    <Router history={createHashHistory()}>
-      <SignedOut path="/" user={currentUser.value} auth={auth} />
-      <SignIn path="/sign-in" user={currentUser.value} auth={auth} />
-      <Home path="/home" user={currentUser.value} auth={auth} />
-      <Experiments path="/experiments" user={currentUser.value} auth={auth} />
-    </Router>
-  </div>
+  const [experiments, setExperiments] = useState([{
+    Name: "Liver lesion test 1",
+    Organs: "Liver",
+    Status: "Completed",
+    LastUpdated: "Tue Jun 13 2023 09:41:32 GMT+0200 (Central European Summer Time)"
+  }]);
 
-);
+  function addExperiment(experiment: { Name: string, Organs: string, Status: string, LastUpdated: string }) {
+    var newExperiements = experiments;
+    newExperiements.push(experiment);
+
+    setExperiments(newExperiements);
+  }
+
+  return (
+    <div onClick={() => { sendCancelEvent() }}>
+      {/* @ts-ignore */}
+      <Router history={createHashHistory()}>
+        <SignedOut path="/" user={currentUser.value} auth={auth} />
+        <SignIn path="/sign-in" user={currentUser.value} auth={auth} />
+        <Home path="/home" user={currentUser.value} auth={auth} />
+        <Experiments path="/experiments" user={currentUser.value} auth={auth} experiments={experiments} />
+        <NewExperiment path="/new-experiment" user={currentUser.value} auth={auth} addExperiment={addExperiment} />
+      </Router>
+    </div>
+  );
+}
 
 render(<Main />, document.getElementById('app') as HTMLElement)
 

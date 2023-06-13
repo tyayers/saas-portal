@@ -68,9 +68,12 @@ export function Header(props: { user: User | undefined, auth: Auth }) {
             <div class="menu">
               <div class="panel">
                 {/* <div class="user_email_panel" dangerouslySetInnerHTML={{ __html: props.user?.email?.replace("@", "@<br/>") }}></div> */}
+
+                <div class="user_menu_panel">
+                  <div class="result">Admin</div>
+                  <div class="result" onClick={() => { signUserOut() }}>Sign out</div>
+                </div>
                 <div class="user_email_panel">{props.user?.email}</div>
-                <div class="result">Admin</div>
-                <div class="result" onClick={() => { signUserOut() }}>Sign out</div>
               </div>
             </div>
           </div>

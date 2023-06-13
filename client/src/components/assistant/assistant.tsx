@@ -12,6 +12,7 @@ export function Assistant() {
   document.addEventListener("dialogCancel", () => {
     setAnswers([]);
     setInput("");
+    setThinking(false);
   });
 
   function askAssistant(e: JSX.TargetedKeyboardEvent<HTMLInputElement>) {

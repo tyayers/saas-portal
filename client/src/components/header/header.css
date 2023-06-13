@@ -36,6 +36,7 @@
 .user_menu {
   position: absolute;
   top: 45px;
+  z-index: 1;
 }
 
 .menu {
@@ -107,6 +108,11 @@
 .header_center_panel1 {
   display: flex;
   width: 32%;
+}
+
+.user_menu_panel {
+  width: 100%;
+  text-align: right;
 }
 
 /* .input_assistant {

@@ -1,0 +1,45 @@
+.input_field_panel {
+  --padding: 8px;
+  --focus-color: rgb(61, 87, 255);
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.input_field {
+  font-family: Google Sans,
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  padding: var(--padding);
+  border: 2px solid gray;
+  outline: none;
+  border-radius: 6px;
+  /* background-color: #f1f3f4; */
+  background-color: white;
+  width: 400px;
+}
+
+.input_field_placeholder {
+  position: absolute;
+  top: 6px;
+  /* background-color: #f1f3f4; */
+  background-color: white;
+  color: gray;
+  left: var(--padding);
+  padding: 0 4px;
+  transition: all 0.2s ease-in;
+  pointer-events: none;
+}
+
+.input_field:is(:focus, :valid) {
+  border: 2px solid var(--primary-color);
+}
+
+.input_field:is(:focus, :valid)+.input_field_placeholder {
+  transform: translatey(calc(-1 * var(--padding) - 11px)) translatex(-4px);
+  font-size: 14px;
+  color: var(--primary-color);
+}

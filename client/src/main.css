@@ -11,6 +11,15 @@
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424; */
 
+  --primary-color: #3367d6;
+  --secondary-color: rgb(33,
+      150,
+      243, 0);
+  --primary-light-color: #d3e3fd;
+  --secondary-light-color: #f1f3f4;
+  --primary-background-color: white;
+  --secondary-background-color: #f1f3f4;
+
   color: #404040;
 
   font-synthesis: none;
