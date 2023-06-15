@@ -9,8 +9,9 @@ import "./experiments.css";
 
 import { Auth, User } from "firebase/auth";
 import { route } from "preact-router";
+import { ExperimentDefinition } from "../../types";
 
-export function Experiments(props: { path: string, user: User | undefined, auth: Auth, experiments: { Id: string, Name: string, Organs: string, Status: string, LastUpdated: string }[] }) {
+export function Experiments(props: { path: string, user: User | undefined, auth: Auth, experiments: ExperimentDefinition[] }) {
 
   return (
     <>
@@ -30,18 +31,18 @@ export function Experiments(props: { path: string, user: User | undefined, auth:
           <thead>
             <tr>
               <th>Name</th>
-              <th>Organs</th>
+              <th>Organ</th>
               <th>Status</th>
               <th>Last Updated</th>
             </tr>
           </thead>
           <tbody>
             {props.experiments.map((experiment) => (
-              <tr onClick={() => route("/experiments/" + experiment.Id)}>
-                <td>{experiment.Name}</td>
-                <td>{experiment.Organs}</td>
-                <td>{experiment.Status}</td>
-                <td>{experiment.LastUpdated}</td>
+              <tr onClick={() => route("/experiments/" + experiment.id)}>
+                <td>{experiment.name}</td>
+                <td>{experiment.organ}</td>
+                <td>{experiment.status}</td>
+                <td>{experiment.lastUpdated}</td>
               </tr>
             ))
             }

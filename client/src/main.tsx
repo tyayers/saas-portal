@@ -12,7 +12,7 @@ import { Experiments } from './views/experiments/experiments';
 import { NewExperiment } from './views/experiments-new/experiments-new';
 
 import './main.css'
-import { useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import { Experiment } from './views/experiment/experiment';
 import { ExperimentDefinition } from './types';
 import { Assistant } from './views/assistant/assistant';
@@ -32,7 +32,9 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     console.log("Found user, going to home page.");
     currentUser.value = user;
-    route("/home");
+
+    if (window.location.href.endsWith("/static/"))
+      route("/home");
   } else {
     console.log("No user found.");
     // User is signed out
@@ -76,20 +78,37 @@ function sendCancelEvent() {
 
 function Main() {
 
-  const [experiments, setExperiments] = useState([{
-    Id: "Liver lesion test 1".toLowerCase().replaceAll(" ", "_") + "_" + (new Date()).getTime().toString(),
-    Name: "Liver lesion test 1",
-    Description: "First test of a liver lesion detection model.",
-    Organs: "Liver",
-    Status: "Completed",
-    LastUpdated: "Tue Jun 13 2023 09:41:32 GMT+0200 (Central European Summer Time)"
-  }]);
+  const [experiments, setExperiments] = useState<ExperimentDefinition[]>([]);
+
+  // const [experiments, setExperiments] = useState([{
+  //   id: "Liver lesion test 1".toLowerCase().replaceAll(" ", "_") + "_" + (new Date()).getTime().toString(),
+  //   name: "Liver lesion test 1",
+  //   description: "First test of a liver lesion detection model.",
+  //   organ: "liver",
+  //   status: "Completed",
+  //   lastUpdated: "Tue Jun 13 2023 09:41:32 GMT+0200 (Central European Summer Time)"
+  // }]);
+
+  useEffect(() => {
+    fetch(import.meta.env.VITE_SERVICE_URL + "/data/experiments", {
+      method: "GET",
+      headers: {
+        Accept: "application/json"
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data: { experiments: ExperimentDefinition[] }) => {
+        setExperiments(data.experiments);
+      });
+  }, []);
 
   function getExperiment(id: string): ExperimentDefinition | undefined {
     var result = undefined;
 
     for (var i = 0; i < experiments.length; i++) {
-      if (experiments[i].Id === id)
+      if (experiments[i].id === id)
         result = experiments[i];
     }
 

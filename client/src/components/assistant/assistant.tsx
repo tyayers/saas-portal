@@ -28,7 +28,7 @@ export function Assistant() {
       setInput("");
       setThinking(true);
 
-      fetch(import.meta.env.VITE_ASSISTANT_URL, {
+      fetch(import.meta.env.VITE_SERVICE_URL + "/assistant/chat", {
         body: JSON.stringify({
           "question": input
         }),

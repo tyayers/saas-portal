@@ -1,8 +1,9 @@
 export interface ExperimentDefinition {
-  Id: string;
-  Name: string;
-  Description: string;
-  Organs: string;
-  Status: string;
-  LastUpdated: string;
+  id: string;
+  name: string;
+  description: string;
+  organ: string;
+  status: string;
+  lastUpdated: string;
+  docs: { [key: string]: { name: string; content: string }[] };
 }

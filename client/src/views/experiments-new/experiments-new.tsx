@@ -17,21 +17,37 @@ export function NewExperiment(props: { path: string; user: User | undefined; aut
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [organs, setOrgans] = useState("");
+  const [organ, setOrgan] = useState("");
 
   function addExperiment() {
 
     var exp: ExperimentDefinition = {
-      Id: name.toLowerCase().replace(" ", "_") + "_" + (new Date()).getTime().toString(),
-      Name: name,
-      Description: "",
-      Organs: organs,
-      Status: "Created",
-      LastUpdated: (new Date()).toString()
+      id: name.toLowerCase().replace(" ", "_") + "_" + (new Date()).getTime().toString(),
+      name: name,
+      description: description,
+      organ: organ,
+      status: "Created",
+      lastUpdated: (new Date()).toString(),
+      docs: {}
     }
 
-    props.addExperiment(exp);
-    route("/experiments");
+    fetch(import.meta.env.VITE_SERVICE_URL + "/data/experiments", {
+      body: JSON.stringify(exp),
+      method: "POST",
+      headers: {
+        Accept: "application/json"
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data: ExperimentDefinition) => {
+        console.log("Successfully saved experiement to server.")
+        console.log(data);
+
+        props.addExperiment(data);
+        route("/experiments");
+      });
   }
 
   return (
@@ -52,7 +68,7 @@ export function NewExperiment(props: { path: string; user: User | undefined; aut
           <form id="newExperimentForm" autocomplete="off">
             <InputField id="experiment_name" placeholder="Name" focus={true} type="singleline" rows={1} value={name} setValue={setName} />
             <InputField id="experiment_description" placeholder="Description" focus={false} type="multiline" rows={4} value={description} setValue={setDescription} />
-            <InputField id="experiment_organs" placeholder="Organs" focus={false} type="multiline" rows={2} value={organs} setValue={setOrgans} />
+            <InputField id="experiment_organs" placeholder="Organ" focus={false} type="multiline" rows={2} value={organ} setValue={setOrgan} />
           </form>
         </div>
         <div class="bottom_buttons_panel">
