@@ -40,6 +40,7 @@
 
 .answers_panel {
   display: flex;
+  flex-flow: column;
   width: 43vw;
   position: relative;
   top: -45px;
@@ -60,4 +61,19 @@
   width: 86px;
   height: 86px;
   margin: auto;
+}
+
+.answers_content {
+  width: 100%;
+}
+
+.answers_content_suggested {
+  width: 100%;
+  margin-top: 18px;
+}
+
+.answers_content_suggested_buttons {
+  width: 100%;
+  margin-top: 14px;
+  text-align: center;
 }

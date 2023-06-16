@@ -82,90 +82,157 @@ class data_manager:
         return json.dumps(data)
 
     def FillDocs(self, data):
-        if data["organ"].lower() == "liver":
+        if "liver" in data["organ"].lower():
             data["docs"] = {
                 "fda": [
                     {
                         "name": "Documentation Level Evaluation (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
                     },
                     {
                         "name": "Software Description (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vTRtsHntRn74cg-OQiB62m9n3RWpde0zLD9GvKhvXMb-wNVh5XZDfK8HPau_WClUIXP0Yq4XBgDB6Lt/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vTRtsHntRn74cg-OQiB62m9n3RWpde0zLD9GvKhvXMb-wNVh5XZDfK8HPau_WClUIXP0Yq4XBgDB6Lt/pub?embedded=true"></iframe>',
                     },
                     {
                         "name": "Risk Management File (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vRBCNKsb1I0Q8mlbB6VrkTCWy1Rqj-PJYBwHLNiBGCQE1uuxlKUFqkvdBcrxCRKJFyiMUNU1yIcsY_C/pub?embedded=true"></iframe>',
                     },
                     {
                         "name": "Software Requirements Specification (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vRfw6rIKBEO8EfpiF04MX9VmqE1jrmiRMaadciSdSGbdSQNchZ4UB5WLKVhI-jUc39leSn9Lev8BtJg/pub?embedded=true"></iframe>',
                     },
                     {
                         "name": "Software Architecture Design (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vSQOmZqEbwsUQNeuL05ur12pruvh0IIKkO-p4HZgEBaJVsU9SO8AiPExRspDa6ZFlpP0Bji2EHE48cM/pub?embedded=true"></iframe>',
                     },
                     {
                         "name": "Software Design Specification (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vTtd1jJFbIGeXd07dfVMWyis1nAArwgpdaUCydjHZg1n_SWlT-IuNcwStllS3OBI9je5MRbratXnZlC/pub?embedded=true"></iframe>',
                     },
                     {
                         "name": "Software Configuration Management (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vQpYlVkoC3s9vVWQtA-5yCH4ra9IwOEJt3691E9YogJGC5qiQnI3HqsX_fUU0wdq34ObYJnet6k299l/pub?embedded=true"></iframe>',
                     },
                     {
                         "name": "Software Testing Specification (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vQ0-x8hKjpxr6kqrLkojdRHI9IlKVkIubi0RJwRvwJJ7C5jvUmmImP7K7jjSwcbapbHDCcnV6RpJhW9/pub?embedded=true"></iframe>',
                     },
                     {
                         "name": "Software Version History (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vSG1eHdVdGDXgogYr5CCXQccjF5G2YUD04-6LsNBT1BtcfOEEY-93wo6AiUKnv0iwmZvDaaJDs9YKo_/pub?embedded=true"></iframe>',
                     },
                     {
                         "name": "Unresolved Software Anomalies (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vRYnsTDd_3cu3aZ3VgRYGg75_3sVdPhWjRZAlj2z0AoUjXE8nK6gNZ1Y-AF0hpD6rwya8T7toAk_WzG/pub?embedded=true"></iframe>',
                     },
                 ],
                 "ema": [
                     {
                         "name": "Documentation Level Evaluation (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
                     },
                     {
                         "name": "Software Description (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vTRtsHntRn74cg-OQiB62m9n3RWpde0zLD9GvKhvXMb-wNVh5XZDfK8HPau_WClUIXP0Yq4XBgDB6Lt/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vTRtsHntRn74cg-OQiB62m9n3RWpde0zLD9GvKhvXMb-wNVh5XZDfK8HPau_WClUIXP0Yq4XBgDB6Lt/pub?embedded=true"></iframe>',
                     },
                     {
                         "name": "Risk Management File (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vRBCNKsb1I0Q8mlbB6VrkTCWy1Rqj-PJYBwHLNiBGCQE1uuxlKUFqkvdBcrxCRKJFyiMUNU1yIcsY_C/pub?embedded=true"></iframe>',
                     },
                     {
                         "name": "Software Requirements Specification (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vRfw6rIKBEO8EfpiF04MX9VmqE1jrmiRMaadciSdSGbdSQNchZ4UB5WLKVhI-jUc39leSn9Lev8BtJg/pub?embedded=true"></iframe>',
                     },
                     {
                         "name": "Software Architecture Design (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vSQOmZqEbwsUQNeuL05ur12pruvh0IIKkO-p4HZgEBaJVsU9SO8AiPExRspDa6ZFlpP0Bji2EHE48cM/pub?embedded=true"></iframe>',
                     },
                     {
                         "name": "Software Design Specification (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vTtd1jJFbIGeXd07dfVMWyis1nAArwgpdaUCydjHZg1n_SWlT-IuNcwStllS3OBI9je5MRbratXnZlC/pub?embedded=true"></iframe>',
                     },
                     {
                         "name": "Software Configuration Management (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vQpYlVkoC3s9vVWQtA-5yCH4ra9IwOEJt3691E9YogJGC5qiQnI3HqsX_fUU0wdq34ObYJnet6k299l/pub?embedded=true"></iframe>',
                     },
                     {
                         "name": "Software Testing Specification (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vQ0-x8hKjpxr6kqrLkojdRHI9IlKVkIubi0RJwRvwJJ7C5jvUmmImP7K7jjSwcbapbHDCcnV6RpJhW9/pub?embedded=true"></iframe>',
                     },
                     {
                         "name": "Software Version History (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vSG1eHdVdGDXgogYr5CCXQccjF5G2YUD04-6LsNBT1BtcfOEEY-93wo6AiUKnv0iwmZvDaaJDs9YKo_/pub?embedded=true"></iframe>',
                     },
                     {
                         "name": "Unresolved Software Anomalies (AI DRAFT)",
-                        "content": '<iframe style="width: 100%; height: 100%;" src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vRYnsTDd_3cu3aZ3VgRYGg75_3sVdPhWjRZAlj2z0AoUjXE8nK6gNZ1Y-AF0hpD6rwya8T7toAk_WzG/pub?embedded=true"></iframe>',
+                    },
+                ],
+            }
+        elif "lung" in data["organ"].lower():
+            data["docs"] = {
+                "fda": [
+                    {
+                        "name": "Documentation Level Evaluation (AI DRAFT)",
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vQYj1NkMglx6lubzcHaLOBg0Le-8MkkD_ImUPes2ImpLP-_KobNKuDUF4CgbdOtnQ6Owlr6cjphsq5g/pub?embedded=true"></iframe>',
+                    },
+                    {
+                        "name": "Software Description (AI DRAFT)",
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vRfFtDge6qHQIPdDo8XhRgkern0Z2sQKV_l8S5a-7sM0aw3vFZX8AYRn_LBUJau579U20DQYcVFCE-G/pub?embedded=true"></iframe>',
+                    },
+                    {
+                        "name": "Risk Management File (AI DRAFT)",
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vTdK2PUdEJmNwWl8MgT1eV-dixM8GDx0hNX9br-BUGttjJNDVJuN7DGPT8507ZqFw6HG4Yj6_MYXzTg/pub?embedded=true"></iframe>',
+                    },
+                    {
+                        "name": "Software Requirements Specification (AI DRAFT)",
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vQmRBIPzsxZBC09vdcQ0gatpJa4s2Vqqo8yXEGPbRbiRL6W0K-CRiyWtudx1642Vl6ykebvlh8nf-qY/pub?embedded=true"></iframe>',
+                    },
+                    {
+                        "name": "Software Architecture Design (AI DRAFT)",
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vQCF-mg3MTxawqxKc7s36xAkCrf8sXetwNxnD1H1fGqLRKOBiawiTeewvcWIquaCDat5tbFANldv-md/pub?embedded=true"></iframe>',
+                    },
+                ],
+                "ema": [
+                    {
+                        "name": "Documentation Level Evaluation (AI DRAFT)",
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vSjwjAmUIX0mcMQdLUe0MCZXZWCiok-TmOL5Gib6fR_zuX9LtuGVnPw49uEIWjZGt7YNNkNV2UjijzW/pub?embedded=true"></iframe>',
+                    },
+                    {
+                        "name": "Software Description (AI DRAFT)",
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vTRtsHntRn74cg-OQiB62m9n3RWpde0zLD9GvKhvXMb-wNVh5XZDfK8HPau_WClUIXP0Yq4XBgDB6Lt/pub?embedded=true"></iframe>',
+                    },
+                    {
+                        "name": "Risk Management File (AI DRAFT)",
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vRBCNKsb1I0Q8mlbB6VrkTCWy1Rqj-PJYBwHLNiBGCQE1uuxlKUFqkvdBcrxCRKJFyiMUNU1yIcsY_C/pub?embedded=true"></iframe>',
+                    },
+                    {
+                        "name": "Software Requirements Specification (AI DRAFT)",
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vRfw6rIKBEO8EfpiF04MX9VmqE1jrmiRMaadciSdSGbdSQNchZ4UB5WLKVhI-jUc39leSn9Lev8BtJg/pub?embedded=true"></iframe>',
+                    },
+                    {
+                        "name": "Software Architecture Design (AI DRAFT)",
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vSQOmZqEbwsUQNeuL05ur12pruvh0IIKkO-p4HZgEBaJVsU9SO8AiPExRspDa6ZFlpP0Bji2EHE48cM/pub?embedded=true"></iframe>',
+                    },
+                    {
+                        "name": "Software Design Specification (AI DRAFT)",
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vTtd1jJFbIGeXd07dfVMWyis1nAArwgpdaUCydjHZg1n_SWlT-IuNcwStllS3OBI9je5MRbratXnZlC/pub?embedded=true"></iframe>',
+                    },
+                    {
+                        "name": "Software Configuration Management (AI DRAFT)",
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vQpYlVkoC3s9vVWQtA-5yCH4ra9IwOEJt3691E9YogJGC5qiQnI3HqsX_fUU0wdq34ObYJnet6k299l/pub?embedded=true"></iframe>',
+                    },
+                    {
+                        "name": "Software Testing Specification (AI DRAFT)",
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vQ0-x8hKjpxr6kqrLkojdRHI9IlKVkIubi0RJwRvwJJ7C5jvUmmImP7K7jjSwcbapbHDCcnV6RpJhW9/pub?embedded=true"></iframe>',
+                    },
+                    {
+                        "name": "Software Version History (AI DRAFT)",
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vSG1eHdVdGDXgogYr5CCXQccjF5G2YUD04-6LsNBT1BtcfOEEY-93wo6AiUKnv0iwmZvDaaJDs9YKo_/pub?embedded=true"></iframe>',
+                    },
+                    {
+                        "name": "Unresolved Software Anomalies (AI DRAFT)",
+                        "content": '<iframe src="https://docs.google.com/document/d/e/2PACX-1vRYnsTDd_3cu3aZ3VgRYGg75_3sVdPhWjRZAlj2z0AoUjXE8nK6gNZ1Y-AF0hpD6rwya8T7toAk_WzG/pub?embedded=true"></iframe>',
                     },
                 ],
             }

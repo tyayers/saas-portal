@@ -26,7 +26,7 @@ export function Home(props: { path: string, user: User | undefined, auth: Auth }
           Environments
         </div>
         <div class="main_panel_item">
-          <div class="main_panel_item_header1">Team1</div>
+          <div class="main_panel_item_header1">Google Cloud Public - Belgium (low CO2)</div>
           <div class="main_panel_item_header2">Location: GCP Public | eu-west3</div>
           <div class="main_panel_item_header2">CPU Cores: 120</div>
           <div class="main_panel_item_header2">RAM: 148 GB</div>
@@ -35,7 +35,7 @@ export function Home(props: { path: string, user: User | undefined, auth: Auth }
           <div class="main_panel_item_header2">Users: 84</div>
         </div>
         <div class="main_panel_item">
-          <div class="main_panel_item_header1">ABC Team</div>
+          <div class="main_panel_item_header1">Google Cloud Sovereign - Germany</div>
           <div class="main_panel_item_header2">Location: GCP Sovereign | Germany</div>
           <div class="main_panel_item_header2">CPU Cores: 120</div>
           <div class="main_panel_item_header2">RAM: 148 GB</div>

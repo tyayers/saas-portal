@@ -2,6 +2,8 @@ import { Auth, User } from "firebase/auth";
 import { Header } from "../../components/header/header"
 
 import "./signed-out.css"
+import { InputButton } from "../../components/input-button/input-button";
+import { route } from "preact-router";
 
 export function SignedOut(props: { path: string; user: User | undefined; auth: Auth }) {
   return (
@@ -13,15 +15,14 @@ export function SignedOut(props: { path: string; user: User | undefined; auth: A
         </div>
         <div class="signed_out_heading">
           <div>
-            Health.io is committed to helping everyone, everywhere be healthier through products and services that connect and bring meaning to health information. We’re building products to empower people with the information they need to act on their health. We’re developing technology solutions to enable care teams to deliver more connected care. And we’re exploring the use of artificial intelligence to assist in diagnosing cancer, preventing blindness and much more.
+            Health.io is committed to helping developers and data scientists to learn,
+            build and publish innovative AI powered Software as a Medical Device (SaMD) solutions.
+            We’re developing technology platforms to enable faster, more secure and compliant medical software solutions.
+            And we’re exploring the use of artificial intelligence to assist in recognizing diseases earlier for better health outcomes, for everyone.
           </div>
         </div>
-        <div class="signed_out_heading">
-          <h1>Every healthcare developer should have access to secure, compliant, state-of-the-art data & AI services.</h1>
-        </div>
-        <div class="signed_out_heading">
-          <div>
-            To support meaningful progress across the SaMD development journey, we’re creating tools and resources to help build data & AI driven health applications, faster.          </div>
+        <div class="signed_out_heading_small">
+          <InputButton text="Register" type="primary" action={() => route("/sign-in")}></InputButton>
         </div>
       </div>
 

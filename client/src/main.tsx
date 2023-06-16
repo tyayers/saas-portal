@@ -33,7 +33,7 @@ onAuthStateChanged(auth, (user) => {
     console.log("Found user, going to home page.");
     currentUser.value = user;
 
-    if (window.location.href.endsWith("/static/"))
+    if (window.location.href.endsWith("/static/") || window.location.href.endsWith("/sign-in"))
       route("/home");
   } else {
     console.log("No user found.");
