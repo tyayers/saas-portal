@@ -2,32 +2,26 @@ import { useState } from 'preact/hooks'
 import { JSX } from 'preact/jsx-runtime';
 
 import "./assistant.css"
-import wand from "../../assets/cool-fairy.gif"
-import { InputButton } from '../input-button/input-button';
+import { AssistantResult } from '../../types';
 
-export function Assistant() {
-  const [answers, setAnswers] = useState([""]);
+export function Assistant(props: { onQuestion: (question: string) => void, onAnswer: (answer: AssistantResult) => void }) {
   const [input, setInput] = useState("");
-  const [thinking, setThinking] = useState(false);
 
   document.addEventListener("dialogCancel", () => {
-    setAnswers([]);
     setInput("");
-    setThinking(false);
   });
 
   function askAssistant(e: JSX.TargetedKeyboardEvent<HTMLInputElement>) {
     console.log(e.keyCode);
     if (e.keyCode === 27) {
       // Escape
-      setAnswers([]);
       setInput("");
-      setThinking(false);
     }
     else if (e.keyCode === 13) {
       // Enter
       setInput("");
-      setThinking(true);
+
+      props.onQuestion(input);
 
       fetch(import.meta.env.VITE_SERVICE_URL + "/assistant/chat", {
         body: JSON.stringify({
@@ -41,53 +35,53 @@ export function Assistant() {
         .then((response) => {
           return response.json();
         })
-        .then((data: { question: string, answer: string }) => {
-          setThinking(false);
-          setAnswers([data.answer.replace(/\n/g, "<br />")])
+        .then((data: AssistantResult) => {
+          props.onAnswer(data);
+          // setThinking(false);
+          // setAnswers([data.answer.replace(/\n/g, "<br />")])
         });
     }
     else {
       setInput(e.currentTarget.value);
-      setAnswers([]);
     }
   }
 
-  function getAnswers(): string {
-    var result: string = "";
+  // function getAnswers(): string {
+  //   var result: string = "";
 
-    for (var i = 0; i < answers.length; i++) {
-      result += answers[i] + "\n"
-    }
+  //   for (var i = 0; i < answers.length; i++) {
+  //     result += answers[i] + "\n"
+  //   }
 
-    return result;
-  }
+  //   return result;
+  // }
 
-  function getSuggestions(): { name: string, link: string }[] {
-    let results: { name: string, link: string }[] = [];
+  // function getSuggestions(): { name: string, link: string }[] {
+  //   let results: { name: string, link: string }[] = [];
 
-    for (var i = 0; i < answers.length; i++) {
-      if (answers[i].toLowerCase().includes("convolutional neural network")) {
-        results.push({
-          name: "Explore a CNN sample project",
-          link: ""
-        }, {
-          name: "Create a CNN workbook",
-          link: ""
-        });
-      }
-      else if (answers[i].toLowerCase().includes("u-net")) {
-        results.push({
-          name: "Explore a U-Net sample project",
-          link: ""
-        }, {
-          name: "Create a U-Net workbook",
-          link: ""
-        });
-      }
-    }
+  //   for (var i = 0; i < answers.length; i++) {
+  //     if (answers[i].toLowerCase().includes("convolutional neural network")) {
+  //       results.push({
+  //         name: "Explore a CNN sample project",
+  //         link: ""
+  //       }, {
+  //         name: "Create a CNN workbook",
+  //         link: ""
+  //       });
+  //     }
+  //     else if (answers[i].toLowerCase().includes("u-net")) {
+  //       results.push({
+  //         name: "Explore a U-Net sample project",
+  //         link: ""
+  //       }, {
+  //         name: "Create a U-Net workbook",
+  //         link: ""
+  //       });
+  //     }
+  //   }
 
-    return results;
-  }
+  //   return results;
+  // }
 
   return (
     <div class="assistant_panel">
@@ -99,7 +93,7 @@ export function Assistant() {
         <input id="input_assistant" class="input_assistant" value={input} onKeyUp={(e) => askAssistant(e)} onClick={(e) => e.stopPropagation()}></input>
       </div>
 
-      {thinking &&
+      {/* {thinking &&
         <div class="answers_panel" onClick={(e) => e.stopPropagation()} >
           <img class="answers_panel_thinking" src={wand} />
         </div>
@@ -122,7 +116,7 @@ export function Assistant() {
 
 
         </div>
-      }
+      } */}
 
     </div>
   )

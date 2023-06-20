@@ -1,0 +1,46 @@
+.assistant_main_panel {
+  background: var(--primary-background-color);
+  position: absolute;
+  left: 280px;
+  top: 58px;
+  width: calc(100vw - 312px);
+  /* max-width: calc(100vw - 282px); */
+  bottom: 0px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: flex-start;
+  align-content: flex-end;
+  overflow-y: auto;
+
+}
+
+.assistant_chat_human {
+  background-color: transparent;
+}
+
+.assistant_chat_ai {
+  background-color: darkgray;
+}
+
+.assistant_chat_message {
+  margin-left: 33px;
+  display: flex;
+  flex-wrap: nowrap;
+  margin-top: 14px;
+  flex: 0 0 100%
+}
+
+.assistant_profile_pic {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.assistant_message_text {
+  margin-left: 6px;
+  position: relative;
+  top: 2px;
+}

@@ -3,14 +3,12 @@ import { useState } from 'preact/hooks'
 
 import { Auth, User, signOut } from "firebase/auth";
 
-import { Assistant } from "../assistant/assistant"
-
 import profile from "../../assets/profile.png";
 import "./header.css"
 import { JSX } from 'preact/jsx-runtime';
 import { InputButton } from '../input-button/input-button';
 
-export function Header(props: { user: User | undefined, auth: Auth }) {
+export function Header(props: { user: User | undefined, auth: Auth, showSearch: boolean }) {
 
   const [userMenuVisible, setUserMenuVisible] = useState(false);
   const [userPhotoUrl, setUserPhotoUrl] = useState(profile);
@@ -42,9 +40,9 @@ export function Header(props: { user: User | undefined, auth: Auth }) {
       <span class="header_left_panel1">
         {saasName}
       </span>
-      {props.user &&
+      {props.user && props.showSearch &&
         <span class="header_center_panel1">
-          <Assistant />
+          {/* <Assistant /> */}
         </span>
       }
       <span class="header_right_panel1">

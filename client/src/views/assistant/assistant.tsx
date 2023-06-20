@@ -1,3 +1,5 @@
+import { useEffect, useState } from "preact/hooks";
+
 import { Auth, User } from "firebase/auth";
 import { Header } from "../../components/header/header";
 import { MainMenu, MainMenuItem } from "../../components/main-menu/main-menu";
@@ -5,9 +7,15 @@ import { MainMenu, MainMenuItem } from "../../components/main-menu/main-menu";
 import box from "../../assets/box.svg";
 import flask from "../../assets/flask.svg";
 import wand from "../../assets/wand.svg";
-import { useEffect } from "preact/hooks";
+import sparkle from "../../assets/sparkle.gif"
 
-export function Assistant(props: { path: string, user: User | undefined, auth: Auth }) {
+import "./assistant.css";
+import { Assistant } from "../../components/assistant/assistant";
+import { AssistantChatHistory, AssistantResult } from "../../types";
+
+export function AssistantView(props: { path: string, user: User | undefined, auth: Auth, chats: AssistantChatHistory | undefined, onChatUpdate: (chatHistory: AssistantChatHistory) => void }) {
+
+  // const [chatHistory, setChatHistory] = useState(props.chats);
 
   useEffect(() => {
     // access the associated DOM element:
@@ -15,9 +23,34 @@ export function Assistant(props: { path: string, user: User | undefined, auth: A
     if (elem) elem.focus();
   }, []);
 
+  function onAssistantQuestion(question: string) {
+
+    if (props.chats) {
+      props.chats.chats.push({
+        who: "person",
+        text: question,
+        date: ""
+      });
+
+      props.onChatUpdate(JSON.parse(JSON.stringify(props.chats)));
+    }
+  }
+
+  function onAssistantAnswer(answer: AssistantResult) {
+    if (props.chats) {
+      props.chats.chats.push({
+        who: "ai",
+        text: answer.answer,
+        date: ""
+      });
+
+      props.onChatUpdate(JSON.parse(JSON.stringify(props.chats)));
+    }
+  }
+
   return (
     <>
-      <Header user={props.user} auth={props.auth} />
+      <Header user={props.user} auth={props.auth} showSearch={true} />
 
       <MainMenu>
         <MainMenuItem item={{ id: "environments", text: "My Environments", icon: box, route: "/home", selected: false }} />
@@ -25,7 +58,26 @@ export function Assistant(props: { path: string, user: User | undefined, auth: A
         <MainMenuItem item={{ id: "assistant", text: "AI Assistant", icon: wand, route: "/assistant", selected: true }} />
       </MainMenu>
 
-      <div class="main_panel">
+      <div class="assistant_main_panel">
+        <div class="assistant_chat_panel">
+          {props.chats && props.chats.chats.map((chat) => (
+            <div class="assistant_chat_message">
+              {chat.who == "person" && props.user && props.user.photoURL &&
+                <img class="assistant_profile_pic" src={props.user.photoURL}></img>
+              }
+
+              {chat.who == "ai" &&
+                <img class="assistant_profile_pic" src={sparkle}></img>
+              }
+
+              <div class="assistant_message_text">
+                {chat.text}
+              </div>
+
+            </div>
+          ))}
+        </div>
+        <Assistant onQuestion={onAssistantQuestion} onAnswer={onAssistantAnswer} />
 
       </div>
     </>

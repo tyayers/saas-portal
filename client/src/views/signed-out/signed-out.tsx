@@ -8,7 +8,7 @@ import { route } from "preact-router";
 export function SignedOut(props: { path: string; user: User | undefined; auth: Auth }) {
   return (
     <>
-      <Header user={props.user} auth={props.auth} />
+      <Header user={props.user} auth={props.auth} showSearch={false} />
       <div class="signed_out_main_panel">
         <div class="signed_out_heading">
           <h1>Helping build the next generation of AI powered SaMD solutions</h1>

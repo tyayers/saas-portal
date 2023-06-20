@@ -69,7 +69,8 @@ class data_manager:
 
         data = json.loads(web.data())
 
-        self.FillDocs(data)
+        if "organ" in data:
+            self.FillDocs(data)
 
         logging.info(json.dumps(data))
 
@@ -80,6 +81,34 @@ class data_manager:
         web.header("Access-Control-Allow-Origin", "*")
         web.header("Content-Type", "application/json")
         return json.dumps(data)
+
+    def PUT(self, id):
+        pieces = id.split("/")
+        while "" in pieces:
+            pieces.remove("")
+
+        data = json.loads(web.data())
+
+        logging.info(json.dumps(data))
+
+        self.db.collection(pieces[0]).document(data["id"]).set(data)
+
+        pprint.pprint(data)
+
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header("Content-Type", "application/json")
+        return json.dumps(data)
+
+    # Delets a note
+    def DELETE(self, id):
+        pieces = id.split("/")
+        while "" in pieces:
+            pieces.remove("")
+
+        if len(pieces) > 1:
+            self.db.collection("notes").document(pieces[1]).delete()
+
+        return "200 OK"
 
     def FillDocs(self, data):
         if "liver" in data["organ"].lower():
@@ -250,7 +279,14 @@ class assistant_manager:
         print("Calling vertex LLM model with question: " + question)
 
         answer = self.predict_large_language_model(
-            "cloud32x", "chat-bison@001", 0.2, 256, 0.8, 40, question, "us-central1"
+            os.environ.get("GCLOUD_PROJECT"),
+            os.environ.get("ASSISTANT_MODEL"),
+            float(os.environ.get("ASSISTANT_TEMPERATURE")),
+            int(os.environ.get("ASSISTANT_MAX_OUTPUT_TOKENS")),
+            float(os.environ.get("ASSISTANT_TOP_P")),
+            int(os.environ.get("ASSISTANT_TOP_K")),
+            question,
+            os.environ.get("ASSISTANT_MODEL_REGION"),
         )
 
         web.header("Access-Control-Allow-Origin", "*")
@@ -280,11 +316,11 @@ class assistant_manager:
         }
 
         chat = chat_model.start_chat(
-            context="""A data scientist who wants to create new medical imaging AI models.""",
+            context=os.environ.get("ASSISTANT_CONTEXT"),
             examples=[
                 InputOutputTextPair(
-                    input_text="""what is the best AI model approach for recognizing liver lesions?""",
-                    output_text="""AI can also be used to predict complications of liver cirrhosis. Marozas et al. used US elastography and blood tests as training data for AI models and discriminated cases with pressure differences between the portal vein and hepatic vein.""",
+                    input_text=os.environ.get("ASSISTANT_EXAMPLE_QUESTION1"),
+                    output_text=os.environ.get("ASSISTANT_EXAMPLE_ANSWER1"),
                 )
             ],
         )

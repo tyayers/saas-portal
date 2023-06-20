@@ -13,7 +13,7 @@ export function Home(props: { path: string, user: User | undefined, auth: Auth }
 
   return (
     <>
-      <Header user={props.user} auth={props.auth} />
+      <Header user={props.user} auth={props.auth} showSearch={true} />
 
       <MainMenu>
         <MainMenuItem item={{ id: "environments", text: "My Environments", icon: box, route: "/home", selected: true }} />

@@ -33,7 +33,7 @@ export function SignIn(props: { path: string, auth: Auth, user: User | undefined
 
   return (
     <>
-      <Header user={props.user} auth={props.auth} />
+      <Header user={props.user} auth={props.auth} showSearch={false} />
 
       <div class="background" onClick={() => history.back()}>
         <div class="provider_panel" onClick={(e) => e.stopPropagation()}>

@@ -52,7 +52,7 @@ export function NewExperiment(props: { path: string; user: User | undefined; aut
 
   return (
     <>
-      <Header user={props.user} auth={props.auth} />
+      <Header user={props.user} auth={props.auth} showSearch={true} />
 
       <MainMenu>
         <MainMenuItem item={{ id: "environments", text: "My Environments", icon: box, route: "/home", selected: false }} />

@@ -1,9 +1,8 @@
 import { Router, route } from 'preact-router';
 import { createHashHistory } from 'history';
 import { render } from 'preact'
-import { Signal, signal } from "@preact/signals";
 import { initializeApp } from "firebase/app";
-import { User, getAuth, onAuthStateChanged, getRedirectResult } from "firebase/auth";
+import { User, getAuth, onAuthStateChanged } from "firebase/auth";
 
 import { SignedOut } from './views/signed-out/signed-out';
 import { SignIn } from './views/sign-in/sign-in';
@@ -14,82 +13,77 @@ import { NewExperiment } from './views/experiments-new/experiments-new';
 import './main.css'
 import { useEffect, useState } from 'preact/hooks';
 import { Experiment } from './views/experiment/experiment';
-import { ExperimentDefinition } from './types';
-import { Assistant } from './views/assistant/assistant';
-
-var config = {
-  apiKey: "AIzaSyDWh5sExqNSMsT8Jj6-0q01j6KWL_UmX48",
-  authDomain: "cloud32x.firebaseapp.com",
-};
-
-// Initialize Firebase
-const app = initializeApp(config);
-
-// Initialize Firebase Authentication and get a reference to the service
-const auth = getAuth(app);
-var currentUser: Signal<User | undefined> = signal(undefined);
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    console.log("Found user, going to home page.");
-    currentUser.value = user;
-
-    if (window.location.href.endsWith("/static/") || window.location.href.endsWith("/sign-in"))
-      route("/home");
-  } else {
-    console.log("No user found.");
-    // User is signed out
-    currentUser.value = undefined;
-    route("/");
-  }
-});
-
-getRedirectResult(auth)
-  .then((result) => {
-    // User is signed in.
-    // IdP data available in result.additionalUserInfo.profile.
-
-    // Get the OAuth access token and ID Token
-    console.log(result);
-    // if (result) {
-    //   // const credential = OAuthProvider.credentialFromResult(result);
-    //   // console.log(credential?.accessToken);
-    //   // console.log(credential?.idToken);
-    //   // const accessToken = credential.accessToken;
-    //   // const idToken = credential.idToken;
-    // }
-    // else {
-    //   signOut(auth).then(() => {
-    //     route("/");
-    //   });
-    // }
-  })
-  .catch((error) => {
-    // Handle error.
-    console.error(error);
-  });
-
-function sendCancelEvent() {
-  //First, we initialize our event
-  const event = new Event('dialogCancel');
-
-  // Next, we dispatch the event.
-  document.dispatchEvent(event);
-}
+import { AssistantChatHistory, ExperimentDefinition } from './types';
+import { AssistantView } from './views/assistant/assistant';
 
 function Main() {
 
+  // const [environments, setEnvironments] = useState<ExperimentDefinition[]>([]);
   const [experiments, setExperiments] = useState<ExperimentDefinition[]>([]);
 
-  // const [experiments, setExperiments] = useState([{
-  //   id: "Liver lesion test 1".toLowerCase().replaceAll(" ", "_") + "_" + (new Date()).getTime().toString(),
-  //   name: "Liver lesion test 1",
-  //   description: "First test of a liver lesion detection model.",
-  //   organ: "liver",
-  //   status: "Completed",
-  //   lastUpdated: "Tue Jun 13 2023 09:41:32 GMT+0200 (Central European Summer Time)"
-  // }]);
+  var config = {
+    apiKey: "AIzaSyDWh5sExqNSMsT8Jj6-0q01j6KWL_UmX48",
+    authDomain: "cloud32x.firebaseapp.com",
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(config);
+
+  // Initialize Firebase Authentication and get a reference to the service
+  const auth = getAuth(app);
+  // var currentUser: Signal<User | undefined> = signal(undefined);
+  const [currentUser, setUser] = useState<User | undefined>();
+  const [chats, setChats] = useState<AssistantChatHistory | undefined>(undefined);
+
+  function sendCancelEvent() {
+    //First, we initialize our event
+    const event = new Event('dialogCancel');
+
+    // Next, we dispatch the event.
+    document.dispatchEvent(event);
+  }
 
   useEffect(() => {
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("Found user, going to home page.");
+        setUser(user);
+
+        if (window.location.href.endsWith("/static/") || window.location.href.endsWith("/sign-in"))
+          route("/home");
+
+        // Load chat history
+        fetch(import.meta.env.VITE_SERVICE_URL + "/data/chats/" + user.uid, {
+          method: "GET",
+          headers: {
+            Accept: "application/json"
+          },
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data: AssistantChatHistory) => {
+            setChats(data);
+          })
+          .catch((error: Error) => {
+            console.log(error);
+            setChats({
+              id: user.uid,
+              userEmail: user.email,
+              userName: user.displayName,
+              chats: []
+            });
+          });
+
+      } else {
+        console.log("No user found.");
+        // User is signed out
+        setUser(undefined);
+        route("/");
+      }
+    });
+
     fetch(import.meta.env.VITE_SERVICE_URL + "/data/experiments", {
       method: "GET",
       headers: {
@@ -122,17 +116,29 @@ function Main() {
     setExperiments(newExperiements);
   }
 
+  function updateChatHistory(chatHistory: AssistantChatHistory) {
+    setChats(chatHistory);
+
+    fetch(import.meta.env.VITE_SERVICE_URL + "/data/chats/" + chatHistory.id, {
+      method: "POST",
+      body: JSON.stringify(chatHistory),
+      headers: {
+        Accept: "application/json"
+      },
+    });
+  }
+
   return (
     <div onClick={() => { sendCancelEvent() }}>
       {/* @ts-ignore */}
       <Router history={createHashHistory()}>
-        <SignedOut path="/" user={currentUser.value} auth={auth} />
-        <SignIn path="/sign-in" user={currentUser.value} auth={auth} />
-        <Home path="/home" user={currentUser.value} auth={auth} />
-        <Experiments path="/experiments" user={currentUser.value} auth={auth} experiments={experiments} />
-        <Experiment path="/experiments/:id" id="" user={currentUser.value} auth={auth} getExperiment={getExperiment} />
-        <NewExperiment path="/new-experiment" user={currentUser.value} auth={auth} addExperiment={addExperiment} />
-        <Assistant path="/assistant" user={currentUser.value} auth={auth} />
+        <SignedOut path="/" user={currentUser} auth={auth} />
+        <SignIn path="/sign-in" user={currentUser} auth={auth} />
+        <Home path="/home" user={currentUser} auth={auth} />
+        <Experiments path="/experiments" user={currentUser} auth={auth} experiments={experiments} />
+        <Experiment path="/experiments/:id" id="" user={currentUser} auth={auth} getExperiment={getExperiment} />
+        <NewExperiment path="/new-experiment" user={currentUser} auth={auth} addExperiment={addExperiment} />
+        <AssistantView path="/assistant" user={currentUser} auth={auth} chats={chats} onChatUpdate={updateChatHistory} />
       </Router>
     </div>
   );
