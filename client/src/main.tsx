@@ -9,6 +9,7 @@ import { SignIn } from './views/sign-in/sign-in';
 import { Home } from './views/home/home';
 import { Experiments } from './views/experiments/experiments';
 import { NewExperiment } from './views/experiments-new/experiments-new';
+import { NewEnvironment } from './views/environments-new/environments-new';
 
 import './main.css'
 import { useEffect, useState } from 'preact/hooks';
@@ -137,6 +138,7 @@ function Main() {
         <Home path="/home" user={currentUser} auth={auth} />
         <Experiments path="/experiments" user={currentUser} auth={auth} experiments={experiments} />
         <Experiment path="/experiments/:id" id="" user={currentUser} auth={auth} getExperiment={getExperiment} />
+        <NewEnvironment path="/new-environment" user={currentUser} auth={auth} addExperiment={addExperiment} />
         <NewExperiment path="/new-experiment" user={currentUser} auth={auth} addExperiment={addExperiment} />
         <AssistantView path="/assistant" user={currentUser} auth={auth} chats={chats} onChatUpdate={updateChatHistory} />
       </Router>

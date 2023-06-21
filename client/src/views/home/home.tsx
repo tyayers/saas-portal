@@ -8,6 +8,7 @@ import wand from "../../assets/wand.svg";
 import "./home.css";
 
 import { Auth, User } from "firebase/auth";
+import { route } from "preact-router";
 
 export function Home(props: { path: string, user: User | undefined, auth: Auth }) {
 
@@ -23,7 +24,7 @@ export function Home(props: { path: string, user: User | undefined, auth: Auth }
 
       <div class="main_panel">
         <div class="main_panel_header">
-          Environments
+          Environments <span class="main_panel_header_top_button" onClick={() => route("/new-environment")}>+ Create</span>
         </div>
         <div class="main_panel_item">
           <div class="main_panel_item_header1">Google Cloud Public - Belgium (low CO2)</div>

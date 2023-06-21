@@ -6,6 +6,7 @@ import { Auth, User, signOut } from "firebase/auth";
 import profile from "../../assets/profile.png";
 import "./header.css"
 import { JSX } from 'preact/jsx-runtime';
+import { Search } from '../search/search'
 import { InputButton } from '../input-button/input-button';
 
 export function Header(props: { user: User | undefined, auth: Auth, showSearch: boolean }) {
@@ -42,7 +43,7 @@ export function Header(props: { user: User | undefined, auth: Auth, showSearch: 
       </span>
       {props.user && props.showSearch &&
         <span class="header_center_panel1">
-          {/* <Assistant /> */}
+          <Search />
         </span>
       }
       <span class="header_right_panel1">

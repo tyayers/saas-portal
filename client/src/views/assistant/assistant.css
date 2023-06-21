@@ -4,17 +4,21 @@
   left: 280px;
   top: 58px;
   width: calc(100vw - 312px);
-  /* max-width: calc(100vw - 282px); */
   bottom: 0px;
   padding: 14px;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: flex-end;
-  align-items: flex-start;
-  align-content: flex-end;
-  overflow-y: auto;
+}
 
+.assistant_chat_panel {
+  position: absolute;
+  top: 0px;
+  bottom: 65px;
+  overflow-y: auto;
+}
+
+.assistant_input_panel {
+  position: absolute;
+  bottom: 14px;
+  width: 97%;
 }
 
 .assistant_chat_human {
@@ -30,7 +34,6 @@
   display: flex;
   flex-wrap: nowrap;
   margin-top: 14px;
-  flex: 0 0 100%
 }
 
 .assistant_profile_pic {

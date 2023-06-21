@@ -1,0 +1,133 @@
+.input_select_panel {
+  --padding: 8px;
+  --focus-color: rgb(61, 87, 255);
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 14px;
+}
+
+/* select starting stylings ------------------------------*/
+.input_select {
+  font-family: Google Sans,
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  padding: var(--padding);
+  border: 2px solid gray;
+  outline: none;
+  border-radius: 6px;
+  /* background-color: #f1f3f4; */
+  background-color: white;
+  width: 400px;
+}
+
+.input_select_valid {
+  border: 2px solid var(--primary-color);
+}
+
+.input_select_text {
+  position: relative;
+  font-family: inherit;
+  background-color: transparent;
+  width: 100%;
+  padding: 10px 10px 10px 0;
+  font-size: 14px;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+/* Remove focus */
+.input_select_text:focus {
+  outline: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
+}
+
+/* Use custom arrow */
+.input_select .input_select_text {
+  appearance: none;
+  -webkit-appearance: none
+}
+
+.input_select:after {
+  position: absolute;
+  top: 24px;
+  right: 18px;
+  /* Styling the down arrow */
+  width: 0;
+  height: 0;
+  padding: 0;
+  content: '';
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+}
+
+
+/* LABEL ======================================= */
+.input_select_label {
+  position: absolute;
+  top: 6px;
+  /* background-color: #f1f3f4; */
+  background-color: white;
+  color: gray;
+  left: var(--padding);
+  padding: 0 4px;
+  transition: all 0.2s ease-in;
+  pointer-events: none;
+}
+
+/* active state */
+.input_select_text:focus~.input_select_label,
+.input_select_text:valid~.input_select_label {
+  color: #2F80ED;
+  top: -10px;
+  transition: 0.2s ease all;
+  font-size: 14px;
+}
+
+/* BOTTOM BARS ================================= */
+.input_select_bar {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.input_select_bar:before,
+.input_select_bar:after {
+  content: '';
+  height: 2px;
+  width: 0;
+  bottom: 1px;
+  position: absolute;
+  background: #2F80ED;
+  transition: 0.2s ease all;
+}
+
+.input_select_bar:before {
+  left: 50%;
+}
+
+.input_select_bar:after {
+  right: 50%;
+}
+
+/* active state */
+.input_select_text:focus~.input_select_bar:before,
+.input_select_text:focus~.input_select_bar:after {
+  width: 50%;
+}
+
+/* HIGHLIGHTER ================================== */
+.input_select_highlight {
+  position: absolute;
+  height: 60%;
+  width: 100px;
+  top: 25%;
+  left: 0;
+  pointer-events: none;
+  opacity: 0.5;
+}

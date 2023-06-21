@@ -22,7 +22,8 @@ export function SignedOut(props: { path: string; user: User | undefined; auth: A
           </div>
         </div>
         <div class="signed_out_heading_small">
-          <InputButton text="Register" type="primary" action={() => route("/sign-in")}></InputButton>
+          <InputButton text="Sign In" type="secondary" action={() => route("/sign-in")}></InputButton>
+          <InputButton text="Register" type="secondary" action={() => route("/sign-in")}></InputButton>
         </div>
       </div>
 

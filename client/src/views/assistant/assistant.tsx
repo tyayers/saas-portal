@@ -1,4 +1,4 @@
-import { useEffect, useState } from "preact/hooks";
+import { useEffect } from "preact/hooks";
 
 import { Auth, User } from "firebase/auth";
 import { Header } from "../../components/header/header";
@@ -18,10 +18,14 @@ export function AssistantView(props: { path: string, user: User | undefined, aut
   // const [chatHistory, setChatHistory] = useState(props.chats);
 
   useEffect(() => {
+    // scroll message list to bottom
+    var chat_panel = document.getElementById("assistant_chat_panel");
+    if (chat_panel) chat_panel.scrollTop = chat_panel.scrollHeight;
+
     // access the associated DOM element:
     var elem = document.getElementById("input_assistant");
     if (elem) elem.focus();
-  }, []);
+  }, [props.chats]);
 
   function onAssistantQuestion(question: string) {
 
@@ -59,7 +63,7 @@ export function AssistantView(props: { path: string, user: User | undefined, aut
       </MainMenu>
 
       <div class="assistant_main_panel">
-        <div class="assistant_chat_panel">
+        <div id="assistant_chat_panel" class="assistant_chat_panel">
           {props.chats && props.chats.chats.map((chat) => (
             <div class="assistant_chat_message">
               {chat.who == "person" && props.user && props.user.photoURL &&
@@ -77,7 +81,9 @@ export function AssistantView(props: { path: string, user: User | undefined, aut
             </div>
           ))}
         </div>
-        <Assistant onQuestion={onAssistantQuestion} onAnswer={onAssistantAnswer} />
+        <div class="assistant_input_panel">
+          <Assistant onQuestion={onAssistantQuestion} onAnswer={onAssistantAnswer} />
+        </div>
 
       </div>
     </>

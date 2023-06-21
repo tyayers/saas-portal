@@ -73,7 +73,7 @@ export function NewExperiment(props: { path: string; user: User | undefined; aut
         </div>
         <div class="bottom_buttons_panel">
           <InputButton text="Submit" type="primary" action={() => addExperiment()} />
-          <InputButton text="Cancel" type="secondary" action={() => history.back()} />
+          <InputButton text="Cancel" type="secondary" action={() => route("/experiments")} />
         </div>
       </div>
     </>
