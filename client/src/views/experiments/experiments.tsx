@@ -18,14 +18,14 @@ export function Experiments(props: { path: string, user: User | undefined, auth:
       <Header user={props.user} auth={props.auth} showSearch={true} />
 
       <MainMenu>
-        <MainMenuItem item={{ id: "environments", text: "My Environments", icon: box, route: "/home", selected: false }} />
-        <MainMenuItem item={{ id: "experiments", text: "My Experiments", icon: flask, route: "/experiments", selected: true }} />
+        <MainMenuItem item={{ id: "environments", text: "My Projects", icon: box, route: "/home", selected: false }} />
+        <MainMenuItem item={{ id: "experiments", text: "My Workbenches", icon: flask, route: "/experiments", selected: true }} />
         <MainMenuItem item={{ id: "assistant", text: "AI Assistant", icon: wand, route: "/assistant", selected: false }} />
       </MainMenu>
 
       <div class="main_panel">
         <div class="main_panel_header">
-          Experiments <span class="main_panel_header_top_button" onClick={() => route("/new-experiment")}>+ Create</span>
+          Workbenches <span class="main_panel_header_top_button" onClick={() => route("/new-experiment")}>+ Create new</span>
         </div>
         <table class="styled-table">
           <thead>

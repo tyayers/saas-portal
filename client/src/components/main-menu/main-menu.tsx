@@ -11,7 +11,7 @@ export function MainMenu(props: { children: string | number | bigint | boolean |
     <div class="main_menu">
       <div class="main_menu_create_button" onClick={() => route("/new-environment")}>
         <img class="main_menu_create_icon" src={addIcon}></img>
-        <span class="main_menu_create_text">Create Environment</span>
+        <span class="main_menu_create_text">Create Project</span>
       </div>
       <div class="main_menu_panel">
         {props.children}

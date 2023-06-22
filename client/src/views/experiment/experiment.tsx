@@ -32,8 +32,8 @@ export function Experiment(props: { path: string, user: User | undefined, auth: 
       <Header user={props.user} auth={props.auth} showSearch={true} />
 
       <MainMenu>
-        <MainMenuItem item={{ id: "environments", text: "My Environments", icon: box, route: "/home", selected: false }} />
-        <MainMenuItem item={{ id: "experiments", text: "My Experiments", icon: flask, route: "/experiments", selected: true }} />
+        <MainMenuItem item={{ id: "environments", text: "My Projects", icon: box, route: "/home", selected: false }} />
+        <MainMenuItem item={{ id: "experiments", text: "My Workbenches", icon: flask, route: "/experiments", selected: true }} />
         <MainMenuItem item={{ id: "assistant", text: "AI Assistant", icon: wand, route: "/assistant", selected: false }} />
       </MainMenu>
 
@@ -56,7 +56,7 @@ export function Experiment(props: { path: string, user: User | undefined, auth: 
               <img class="experiment_menu_panel_item_icon" src={data} />
               <span class="experiment_menu_panel_item_text">Datasets</span>
             </div>
-            <div className={selectedFeature == "images" ? "experiment_menu_panel_item experiment_menu_panel_item_selected" : "experiment_menu_panel_item"}>
+            <div class="experiment_menu_panel_item_disabled">
               <img class="experiment_menu_panel_item_icon" src={medical_image} />
               <span class="experiment_menu_panel_item_text">Upload Test Images</span>
             </div>

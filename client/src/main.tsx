@@ -14,12 +14,12 @@ import { NewEnvironment } from './views/environments-new/environments-new';
 import './main.css'
 import { useEffect, useState } from 'preact/hooks';
 import { Experiment } from './views/experiment/experiment';
-import { AssistantChatHistory, ExperimentDefinition } from './types';
+import { AssistantChatHistory, ExperimentDefinition, ProjectDefinition } from './types';
 import { AssistantView } from './views/assistant/assistant';
 
 function Main() {
 
-  // const [environments, setEnvironments] = useState<ExperimentDefinition[]>([]);
+  const [projects, setProjects] = useState<ProjectDefinition[]>([]);
   const [experiments, setExperiments] = useState<ExperimentDefinition[]>([]);
 
   var config = {
@@ -97,6 +97,19 @@ function Main() {
       .then((data: { experiments: ExperimentDefinition[] }) => {
         setExperiments(data.experiments);
       });
+
+    fetch(import.meta.env.VITE_SERVICE_URL + "/data/projects", {
+      method: "GET",
+      headers: {
+        Accept: "application/json"
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data: { projects: ProjectDefinition[] }) => {
+        setProjects(data.projects);
+      });
   }, []);
 
   function getExperiment(id: string): ExperimentDefinition | undefined {
@@ -108,6 +121,13 @@ function Main() {
     }
 
     return result;
+  }
+
+  function addProject(project: ProjectDefinition) {
+    var newProjects: ProjectDefinition[] = projects;
+    newProjects.push(project);
+
+    setProjects(newProjects);
   }
 
   function addExperiment(experiment: ExperimentDefinition) {
@@ -135,10 +155,10 @@ function Main() {
       <Router history={createHashHistory()}>
         <SignedOut path="/" user={currentUser} auth={auth} />
         <SignIn path="/sign-in" user={currentUser} auth={auth} />
-        <Home path="/home" user={currentUser} auth={auth} />
+        <Home path="/home" user={currentUser} auth={auth} projects={projects} />
         <Experiments path="/experiments" user={currentUser} auth={auth} experiments={experiments} />
         <Experiment path="/experiments/:id" id="" user={currentUser} auth={auth} getExperiment={getExperiment} />
-        <NewEnvironment path="/new-environment" user={currentUser} auth={auth} addExperiment={addExperiment} />
+        <NewEnvironment path="/new-environment" user={currentUser} auth={auth} addExperiment={addExperiment} addProject={addProject} />
         <NewExperiment path="/new-experiment" user={currentUser} auth={auth} addExperiment={addExperiment} />
         <AssistantView path="/assistant" user={currentUser} auth={auth} chats={chats} onChatUpdate={updateChatHistory} />
       </Router>

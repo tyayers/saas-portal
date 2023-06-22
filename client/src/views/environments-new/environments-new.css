@@ -1,9 +1,21 @@
-.input_form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 18px;
-  max-width: 400px;
+.environment_new_main_panel {
+  background: var(--primary-background-color);
+  position: absolute;
+  left: 280px;
+  top: 58px;
+  width: calc(100vw - 280px);
+  /* max-width: calc(100vw - 282px); */
+  bottom: 0px;
+
+}
+
+.main_panel_content {
+  width: calc(100% - 28px);
+  padding: 14px;
+  position: absolute;
+  overflow-y: auto;
+  top: 0px;
+  bottom: 60px;
 }
 
 .bottom_buttons_panel {
@@ -14,4 +26,27 @@
   position: absolute;
   bottom: 0px;
   left: 0px;
+}
+
+.environment_location_select {
+  margin-top: 14px;
+  margin-bottom: 14px;
+  /* border: 2px solid gray; */
+  width: 400px;
+  border: 2px solid #2F80ED;
+  outline: none;
+  border-radius: 6px;
+}
+
+.environment_location_select_label {
+  font-size: 14px;
+  position: relative;
+  color: #2F80ED;
+  background-color: white;
+  top: -12px;
+  left: 6px;
+  width: 60px;
+  padding: 0 4px;
+  transition: all 0.2s ease-in;
+  pointer-events: none;
 }

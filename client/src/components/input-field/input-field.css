@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   margin-top: 14px;
+  width: 404px;
 }
 
 .input_field {
@@ -19,7 +20,7 @@
   border-radius: 6px;
   /* background-color: #f1f3f4; */
   background-color: white;
-  width: 400px;
+  width: 100%;
 }
 
 .input_field_placeholder {

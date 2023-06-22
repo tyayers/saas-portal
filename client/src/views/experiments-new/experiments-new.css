@@ -1,3 +1,23 @@
+.experiment_new_main_panel {
+  background: var(--primary-background-color);
+  position: absolute;
+  left: 280px;
+  top: 58px;
+  width: calc(100vw - 280px);
+  /* max-width: calc(100vw - 282px); */
+  bottom: 0px;
+
+}
+
+.experiment_new_main_panel_content {
+  width: calc(100% - 28px);
+  padding: 14px;
+  position: absolute;
+  overflow-y: auto;
+  top: 0px;
+  bottom: 60px;
+}
+
 .input_form {
   display: flex;
   justify-content: center;

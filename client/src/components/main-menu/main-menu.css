@@ -47,14 +47,14 @@
 
 .main_menu_create_icon {
   position: relative;
-  /* left: -28px; */
+  left: 8px;
   top: -2px;
 }
 
 .main_menu_create_text {
   position: relative;
   top: -8px;
-  left: 12px;
+  left: 28px;
 }
 
 .main_menu_panel {

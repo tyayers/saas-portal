@@ -60,6 +60,23 @@
   background-color: #f1f3f4;
 }
 
+.experiment_menu_panel_item_disabled {
+  padding-top: 4px;
+  display: inline-flex;
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+  background-color: transparent;
+  border-radius: 24px 24px 24px 24px;
+  font-size: 14px;
+  text-align: left;
+  height: 30px;
+  margin-left: 4px;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  cursor: not-allowed;
+}
+
 .experiment_menu_panel_item_selected {
   background-color: #d3e3fd !important;
   /* font-weight: 500; */

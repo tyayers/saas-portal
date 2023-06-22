@@ -1,3 +1,12 @@
+export interface ProjectDefinition {
+  id: string;
+  name: string;
+  description: string;
+  locationType: string;
+  locationRegion: string;
+  size: string;
+}
+
 export interface ExperimentDefinition {
   id: string;
   name: string;

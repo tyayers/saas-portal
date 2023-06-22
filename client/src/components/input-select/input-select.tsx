@@ -2,13 +2,14 @@
 import { useState } from "preact/hooks"
 import "./input-select.css"
 
-export function InputSelect() {
+export function InputSelect(props: { label: string, defaultValue: string, children: any, onValueChanged: (value: string) => void }) {
 
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(props.defaultValue);
   const [hasFocus, setHasFocus] = useState(false);
 
   function onChange(input: string) {
     setValue(input);
+    props.onValueChanged(input);
   }
 
   return (
@@ -16,14 +17,11 @@ export function InputSelect() {
 
       <div class={(hasFocus || value) ? "input_select input_select_valid" : "input_select"}>
         <select value={value} class="input_select_text" onFocus={() => setHasFocus(true)} onBlur={() => setHasFocus(false)} onChange={(e) => onChange((e.target as HTMLInputElement).value)} required>
-          <option value="" disabled selected></option>
-          <option value="1">Option 1</option>
-          <option value="2">Option 2</option>
-          <option value="3">Option 3</option>
+          {props.children}
         </select>
         <span class="input_select_highlight"></span>
         <span class="input_select_bar"></span>
-        <label class="input_select_label">Select</label>
+        <label class="input_select_label">{props.label}</label>
       </div>
 
     </div >

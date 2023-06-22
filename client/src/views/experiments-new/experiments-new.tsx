@@ -55,21 +55,22 @@ export function NewExperiment(props: { path: string; user: User | undefined; aut
       <Header user={props.user} auth={props.auth} showSearch={true} />
 
       <MainMenu>
-        <MainMenuItem item={{ id: "environments", text: "My Environments", icon: box, route: "/home", selected: false }} />
-        <MainMenuItem item={{ id: "experiments", text: "My Experiments", icon: flask, route: "/experiments", selected: true }} />
+        <MainMenuItem item={{ id: "environments", text: "My Projects", icon: box, route: "/home", selected: false }} />
+        <MainMenuItem item={{ id: "experiments", text: "My Workbenches", icon: flask, route: "/experiments", selected: true }} />
         <MainMenuItem item={{ id: "assistant", text: "AI Assistant", icon: wand, route: "/assistant", selected: false }} />
       </MainMenu>
 
-      <div class="main_panel">
-        <div class="main_panel_header">
-          New Experiment
-        </div>
-        <div class="input_form">
-          <form id="newExperimentForm" autocomplete="off">
-            <InputField id="experiment_name" placeholder="Name" focus={true} type="singleline" rows={1} value={name} setValue={setName} />
-            <InputField id="experiment_description" placeholder="Description" focus={false} type="multiline" rows={4} value={description} setValue={setDescription} />
-            <InputField id="experiment_organs" placeholder="Organ" focus={false} type="multiline" rows={2} value={organ} setValue={setOrgan} />
-          </form>
+      <div class="experiment_new_main_panel">
+
+        <div class="experiment_new_main_panel_content">
+
+          <div class="main_panel_header">
+            New Experiment
+          </div>
+          <InputField id="experiment_name" placeholder="Name" focus={true} type="singleline" rows={1} value={name} setValue={setName} />
+          <InputField id="experiment_description" placeholder="Description" focus={false} type="multiline" rows={4} value={description} setValue={setDescription} />
+          <InputField id="experiment_organs" placeholder="Organ" focus={false} type="multiline" rows={2} value={organ} setValue={setOrgan} />
+
         </div>
         <div class="bottom_buttons_panel">
           <InputButton text="Submit" type="primary" action={() => addExperiment()} />
