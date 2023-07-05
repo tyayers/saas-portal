@@ -18,7 +18,7 @@ export function InputField(props: { id: string, placeholder: string, focus: bool
     <div class="input_field_panel">
       {props.type == "multiline"
         ? <textarea class="input_field" id={props.id} required rows={props.rows} value={props.value} onKeyUp={(e: JSX.TargetedKeyboardEvent<HTMLTextAreaElement>) => { onInput(e.currentTarget.value) }}></textarea>
-        : <input class="input_field" type='text' id={props.id} required value={props.value} onKeyUp={(e: JSX.TargetedKeyboardEvent<HTMLInputElement>) => { onInput(e.currentTarget.value) }}></input>
+        : <input class="input_field" type={props.type} id={props.id} required value={props.value} onKeyUp={(e: JSX.TargetedKeyboardEvent<HTMLInputElement>) => { onInput(e.currentTarget.value) }}></input>
       }
       <label for={props.id} class='input_field_placeholder'>
         {props.placeholder}

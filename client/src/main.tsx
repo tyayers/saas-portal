@@ -6,6 +6,7 @@ import { User, getAuth, onAuthStateChanged } from "firebase/auth";
 
 import { SignedOut } from './views/signed-out/signed-out';
 import { SignIn } from './views/sign-in/sign-in';
+import { SignInPassword } from './views/sign-in-password/sign-in-password'
 import { Home } from './views/home/home';
 import { Experiments } from './views/experiments/experiments';
 import { NewExperiment } from './views/experiments-new/experiments-new';
@@ -155,6 +156,7 @@ function Main() {
       <Router history={createHashHistory()}>
         <SignedOut path="/" user={currentUser} auth={auth} />
         <SignIn path="/sign-in" user={currentUser} auth={auth} />
+        <SignInPassword path="/sign-in-password" user={currentUser} auth={auth} />
         <Home path="/home" user={currentUser} auth={auth} projects={projects} />
         <Experiments path="/experiments" user={currentUser} auth={auth} experiments={experiments} />
         <Experiment path="/experiments/:id" id="" user={currentUser} auth={auth} getExperiment={getExperiment} />
