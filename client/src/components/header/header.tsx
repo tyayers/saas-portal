@@ -21,10 +21,6 @@ export function Header(props: { user: User | undefined, auth: Auth, showSearch: 
     setUserMenuVisible(false);
   });
 
-  function signIn() {
-    route("/sign-in")
-  }
-
   function signUserOut() {
     signOut(props.auth).then(() => {
       route("/");
@@ -49,8 +45,8 @@ export function Header(props: { user: User | undefined, auth: Auth, showSearch: 
       <span class="header_right_panel1">
         {!props.user &&
           <span>
-            <InputButton text="Sign In" type="secondary" action={() => signIn()}></InputButton>
-            <InputButton text="Register" type="primary" action={() => signIn()}></InputButton>
+            <InputButton text="Sign In" type="secondary" action={() => route("/sign-in")}></InputButton>
+            <InputButton text="Register" type="primary" action={() => route("/register")}></InputButton>
           </span>
         }
         {props.user &&
