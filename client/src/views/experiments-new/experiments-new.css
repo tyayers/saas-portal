@@ -10,7 +10,8 @@
 }
 
 .experiment_new_main_panel_content {
-  width: calc(100% - 28px);
+  /* width: calc(100% - 28px); */
+  width: 404px;
   padding: 14px;
   position: absolute;
   overflow-y: auto;

@@ -5,7 +5,8 @@
   display: flex;
   align-items: center;
   margin-top: 14px;
-  width: 404px;
+  /* width: 404px; */
+  width: 100%;
 }
 
 .input_field {

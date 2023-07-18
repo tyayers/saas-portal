@@ -8,7 +8,7 @@ export function SignIn(props: { path: string, auth: Auth, user: User | undefined
   const googleProvider = new GoogleAuthProvider();
   const microsoftProvider = new OAuthProvider('microsoft.com');
   const buttonText = props.registerUser ? "Register" : "Sign In";
-  const headerText = props.registerUser ? "Welcome" : "Welcome";
+  const headerText = props.registerUser ? "Join Health.io" : "Welcome back.";
 
   function signInGoogle() {
     signInWithRedirect(props.auth, googleProvider);

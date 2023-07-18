@@ -35,10 +35,16 @@ export function SignInPassword(props: { path: string, auth: Auth, user: User | u
 
       <div class="signin_password_background" onClick={() => history.back()}>
         <div class="signin_password_panel" onClick={(e) => e.stopPropagation()}>
-          Welcome! Please enter your email and password.
+          <div class="signin_password_title">Sign in with Email</div>
           <div class="signin_password_form">
-            <InputField id="email" placeholder="Email" focus={true} type="singleline" rows={1} value={email} setValue={setEmail}></InputField>
-            <InputField id="password" placeholder="Password" focus={false} type="password" rows={1} value={password} setValue={setPassword}></InputField>
+            <InputField id="email" placeholder="Email" focus={true}
+              type="singleline" rows={1} value={email}
+              setValue={setEmail}
+              onSubmit={createUser} onCancel={history.back}></InputField>
+            <InputField id="password" placeholder="Password" focus={false}
+              type="password" rows={1} value={password}
+              setValue={setPassword}
+              onSubmit={createUser} onCancel={() => history.back()}></InputField>
             <br />
             <div>
               <InputButton text="Sign In" type="primary" action={() => createUser()}></InputButton>

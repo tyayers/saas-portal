@@ -23,32 +23,40 @@ export function NewEnvironment(props: { path: string; user: User | undefined; au
 
   function submit() {
 
-    var newProject: ProjectDefinition = {
-      id: name.toLowerCase().replace(" ", "_") + "_" + (new Date()).getTime().toString(),
-      name: name,
-      description: description,
-      locationType: location,
-      locationRegion: region,
-      size: size
+    if (!name) {
+      alert("Please provide a name for the project!");
     }
+    else if (!description) {
+      alert("Please provide a description for the project!");
+    }
+    else {
+      var newProject: ProjectDefinition = {
+        id: name.toLowerCase().replace(" ", "_") + "_" + (new Date()).getTime().toString(),
+        name: name,
+        description: description,
+        locationType: location,
+        locationRegion: region,
+        size: size
+      }
 
-    fetch(import.meta.env.VITE_SERVICE_URL + "/data/projects", {
-      body: JSON.stringify(newProject),
-      method: "POST",
-      headers: {
-        Accept: "application/json"
-      },
-    })
-      .then((response) => {
-        return response.json();
+      fetch(import.meta.env.VITE_SERVICE_URL + "/data/projects", {
+        body: JSON.stringify(newProject),
+        method: "POST",
+        headers: {
+          Accept: "application/json"
+        },
       })
-      .then((data: ProjectDefinition) => {
-        console.log("Successfully saved experiement to server.")
-        console.log(data);
+        .then((response) => {
+          return response.json();
+        })
+        .then((data: ProjectDefinition) => {
+          console.log("Successfully saved experiement to server.")
+          console.log(data);
 
-        props.addProject(data);
-        route("/home");
-      });
+          props.addProject(data);
+          route("/home");
+        });
+    }
   }
 
   return (
@@ -63,7 +71,7 @@ export function NewEnvironment(props: { path: string; user: User | undefined; au
 
       <div class="environment_new_main_panel">
 
-        <div class="main_panel_content">
+        <form class="main_panel_content" autocomplete="off">
 
           <div class="main_panel_header">
             New Project
@@ -111,7 +119,7 @@ export function NewEnvironment(props: { path: string; user: User | undefined; au
             </InputSelect>
           </div>
 
-        </div>
+        </form>
         <div class="bottom_buttons_panel">
           <InputButton text="Submit" type="primary" action={() => submit()} />
           <InputButton text="Cancel" type="secondary" action={() => route("/home")} />
