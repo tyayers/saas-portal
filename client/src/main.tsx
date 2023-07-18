@@ -53,7 +53,7 @@ function Main() {
         console.log("Found user, going to home page.");
         setUser(user);
 
-        if (window.location.href.endsWith("/static/") || window.location.href.endsWith("/sign-in"))
+        if (window.location.href.endsWith("/static/") || window.location.href.endsWith("/sign-in") || window.location.href.endsWith("/register"))
           route("/home");
 
         // Load chat history

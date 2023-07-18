@@ -18,7 +18,7 @@ urls = (
     "/data(.*)",
     "data_manager",
     "/",
-    "redirect_manager",
+    "redirect_manager"
 )
 
 app = web.application(urls, globals())
