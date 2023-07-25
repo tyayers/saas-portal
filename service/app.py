@@ -20,6 +20,7 @@ from langchain.prompts.chat import (
 from langchain.schema import HumanMessage, SystemMessage
 from langchain.llms import VertexAI
 from langchain import PromptTemplate, LLMChain
+from langchain.chains import SimpleSequentialChain
 
 chat = ChatVertexAI()
 
@@ -359,8 +360,15 @@ class langchain_manager:
         prompt = PromptTemplate(template=template, input_variables=["question"])
         llm = VertexAI()
         llm_chain = LLMChain(prompt=prompt, llm=llm)
-        response = llm_chain.run(question)
 
+        med_llm = VertexAI(model_name="medpalm2@experimental")
+        med_llm_chain = LLMChain(prompt=prompt, llm=med_llm)
+
+        overall_chain = SimpleSequentialChain(chains=[llm_chain, med_llm_chain], verbose=True)
+
+        response = overall_chain.run(question)
+
+        # response = llm_chain.run(question)
 
         web.header("Access-Control-Allow-Origin", "*")
         web.header("Content-Type", "application/json")
