@@ -41,7 +41,8 @@
 }
 
 .experiment_menu_panel_item {
-  padding-top: 4px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   display: inline-flex;
   position: relative;
   text-align: center;
@@ -71,8 +72,8 @@
   font-size: 14px;
   text-align: left;
   height: 30px;
-  margin-left: 4px;
-  margin-right: 4px;
+  margin-left: 10px;
+  margin-right: 10px;
   margin-bottom: 4px;
   cursor: not-allowed;
 }
@@ -85,13 +86,13 @@
 .experiment_menu_panel_item_icon {
   width: 24px;
   margin-left: 12px;
-  position: relative;
-  top: -2px;
+  /* position: relative;
+  top: -2px; */
 }
 
 .experiment_menu_panel_item_text {
   position: relative;
-  top: 1px;
+  top: 3px;
   margin-left: 4px;
   margin-right: 18px;
 }

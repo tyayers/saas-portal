@@ -71,7 +71,7 @@ export function NewEnvironment(props: { path: string; user: User | undefined; au
 
       <div class="environment_new_main_panel">
 
-        <form class="main_panel_content" autocomplete="off">
+        <div class="main_panel_content" autocomplete="off">
 
           <div class="main_panel_header">
             New Project
@@ -119,7 +119,7 @@ export function NewEnvironment(props: { path: string; user: User | undefined; au
             </InputSelect>
           </div>
 
-        </form>
+        </div>
         <div class="bottom_buttons_panel">
           <InputButton text="Submit" type="primary" action={() => submit()} />
           <InputButton text="Cancel" type="secondary" action={() => route("/home")} />

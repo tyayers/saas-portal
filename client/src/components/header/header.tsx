@@ -34,7 +34,7 @@ export function Header(props: { user: User | undefined, auth: Auth, showSearch: 
 
   return (
     <div class="header">
-      <span class="header_left_panel1">
+      <span class="header_left_panel1" onClick={() => route("/home")}>
         {saasName}
       </span>
       {props.user && props.showSearch &&

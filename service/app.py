@@ -11,10 +11,23 @@ from firebase_admin import firestore
 import google.auth
 import vertexai
 from vertexai.preview.language_models import ChatModel, InputOutputTextPair
+from langchain.chat_models import ChatVertexAI
+from langchain.prompts.chat import (
+    ChatPromptTemplate,
+    SystemMessagePromptTemplate,
+    HumanMessagePromptTemplate,
+)
+from langchain.schema import HumanMessage, SystemMessage
+from langchain.llms import VertexAI
+from langchain import PromptTemplate, LLMChain
+
+chat = ChatVertexAI()
 
 urls = (
     "/assistant/chat",
     "assistant_manager",
+    "/assistant/langchain",
+    "langchain_manager",
     "/data(.*)",
     "data_manager",
     "/",
@@ -326,6 +339,49 @@ class assistant_manager:
         )
         response = chat.send_message(question, **parameters)
         return response.text
+
+
+class langchain_manager:
+    def POST(self):
+        inputData = {}
+        question = ""
+        if web.data():
+            print("have web data")
+            inputData = json.loads(web.data())
+            question = inputData["question"]
+
+        print("Calling vertex LLM model with question: " + question)
+
+        template = """Question: {question}
+
+        Answer: Let's think step by step."""
+
+        prompt = PromptTemplate(template=template, input_variables=["question"])
+        llm = VertexAI()
+        llm_chain = LLMChain(prompt=prompt, llm=llm)
+        response = llm_chain.run(question)
+
+
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header("Content-Type", "application/json")
+
+        return json.dumps({"question": question, "answer": response})
+
+        # messages = [
+        #     SystemMessage(
+        #         content="You are a helpful assistant for healthcare and data science related questions."
+        #     ),
+        #     HumanMessage(
+        #         content=question
+        #     ),
+        # ]
+        
+        # response = chat(messages)
+
+        # web.header("Access-Control-Allow-Origin", "*")
+        # web.header("Content-Type", "application/json")
+
+        # return json.dumps({"question": question, "answer": response.content})
 
 
 class redirect_manager:
