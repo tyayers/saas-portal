@@ -12,7 +12,7 @@ import medical_image from "../../assets/medical_image.svg"
 import { ExperimentDefinition } from "../../types"
 import { useEffect, useState } from "preact/hooks";
 
-import "./experiment.css"
+import "./project.css"
 import { InputButton } from "../../components/input-button/input-button";
 
 export function Experiment(props: { path: string, user: User | undefined, auth: Auth, id: string, getExperiment: (id: string) => ExperimentDefinition | undefined }) {

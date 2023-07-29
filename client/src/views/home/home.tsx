@@ -27,7 +27,7 @@ export function Home(props: { path: string, user: User | undefined, auth: Auth, 
 
       <div class="main_panel">
         <div class="main_panel_header">
-          Projects <span class="main_panel_header_top_button" onClick={() => route("/new-environment")}>+ Create new</span>
+          Projects <span class="main_panel_header_top_button" onClick={() => route("/new-project")}>+ Create new</span>
         </div>
         {props.projects.map((project) => (
           <div class="main_panel_item">

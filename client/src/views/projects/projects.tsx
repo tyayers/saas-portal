@@ -5,13 +5,13 @@ import box from "../../assets/box.svg";
 import flask from "../../assets/flask.svg";
 import wand from "../../assets/wand.svg";
 
-import "./experiments.css";
+import "./projects.css";
 
 import { Auth, User } from "firebase/auth";
 import { route } from "preact-router";
 import { ExperimentDefinition } from "../../types";
 
-export function Experiments(props: { path: string, user: User | undefined, auth: Auth, experiments: ExperimentDefinition[] }) {
+export function Projects(props: { path: string, user: User | undefined, auth: Auth, experiments: ExperimentDefinition[] }) {
 
   return (
     <>

@@ -13,7 +13,8 @@
       "justMyCode": true,
       "env": {
         "GCLOUD_PROJECT": "cloud32x",
-        "ASSISTANT_MODEL": "chat-bison@001",
+        "CHAT_MODEL": "chat-bison",
+        "PROMPT_MODEL": "text-bision",
         "ASSISTANT_MODEL_REGION": "us-central1",
         "ASSISTANT_TEMPERATURE": "0.2",
         "ASSISTANT_MAX_OUTPUT_TOKENS": "256",

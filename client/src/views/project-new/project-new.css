@@ -1,4 +1,4 @@
-.environment_new_main_panel {
+.project_new_main_panel {
   background: var(--primary-background-color);
   position: absolute;
   left: 280px;
@@ -9,7 +9,7 @@
 
 }
 
-.main_panel_content {
+.project_new_main_panel_content {
   /* width: calc(100% - 28px); */
   width: 404px;
   padding: 14px;
@@ -17,6 +17,37 @@
   overflow-y: auto;
   top: 0px;
   bottom: 60px;
+}
+
+.project_new_generated_button {
+  position: relative;
+  top: -5px;
+  background: white;
+}
+
+.project_new_main_panel_header {
+  width: 100%;
+  font-size: 28px;
+  padding-bottom: 8px;
+}
+
+.project_new_gen_description_panel {
+  padding-top: 12px;
+}
+
+.project_new_generated_description {
+  padding-top: 18px;
+}
+
+.project_new_generated_text {
+  padding-top: 8px;
+  /* max-height: 400px;
+  overflow-y: auto; */
+}
+
+.project_new_gen_button_icon {
+  width: 24px;
+  height: 24px;
 }
 
 .bottom_buttons_panel {

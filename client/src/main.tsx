@@ -9,13 +9,16 @@ import { SignIn } from './views/sign-in/sign-in';
 import { SignInPassword } from './views/sign-in-password/sign-in-password';
 import { SignInRegister } from './views/register-password/register-password';
 import { Home } from './views/home/home';
-import { Experiments } from './views/experiments/experiments';
+import { Projects } from './views/projects/projects';
+import { ProjectNew } from './views/project-new/project-new';
+import { ProjectNew2 } from './views/project-new-2/project-new-2';
+
 import { NewExperiment } from './views/experiments-new/experiments-new';
-import { NewEnvironment } from './views/environments-new/environments-new';
+
 
 import './main.css'
 import { useEffect, useState } from 'preact/hooks';
-import { Experiment } from './views/experiment/experiment';
+import { Experiment } from './views/project/project';
 import { AssistantChatHistory, ExperimentDefinition, ProjectDefinition } from './types';
 import { AssistantView } from './views/assistant/assistant';
 
@@ -161,9 +164,11 @@ function Main() {
         <SignInPassword path="/sign-in-password" user={currentUser} auth={auth} />
         <SignInRegister path="/register-email" user={currentUser} auth={auth} />
         <Home path="/home" user={currentUser} auth={auth} projects={projects} />
-        <Experiments path="/experiments" user={currentUser} auth={auth} experiments={experiments} />
+        <Projects path="/home" user={currentUser} auth={auth} experiments={experiments} />
+        <ProjectNew path="/new-project" user={currentUser} auth={auth} addExperiment={addExperiment} addProject={addProject} />
+        <ProjectNew2 path="/new-project-details" user={currentUser} auth={auth} addExperiment={addExperiment} addProject={addProject} />
+
         <Experiment path="/experiments/:id" id="" user={currentUser} auth={auth} getExperiment={getExperiment} />
-        <NewEnvironment path="/new-environment" user={currentUser} auth={auth} addExperiment={addExperiment} addProject={addProject} />
         <NewExperiment path="/new-experiment" user={currentUser} auth={auth} addExperiment={addExperiment} />
         <AssistantView path="/assistant" user={currentUser} auth={auth} chats={chats} onChatUpdate={updateChatHistory} />
       </Router>

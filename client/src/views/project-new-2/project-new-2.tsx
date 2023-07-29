@@ -9,11 +9,11 @@ import wand from "../../assets/wand.svg";
 import { useState } from 'preact/hooks';
 import { User, Auth } from "firebase/auth";
 
-import "./environments-new.css"
+import "./project-new-2.css"
 import { route } from "preact-router";
 import { ExperimentDefinition, ProjectDefinition } from "../../types";
 
-export function NewEnvironment(props: { path: string; user: User | undefined; auth: Auth; addExperiment: (experiment: ExperimentDefinition) => void; addProject: (project: ProjectDefinition) => void }) {
+export function ProjectNew2(props: { path: string; user: User | undefined; auth: Auth; addExperiment: (experiment: ExperimentDefinition) => void; addProject: (project: ProjectDefinition) => void }) {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -69,15 +69,21 @@ export function NewEnvironment(props: { path: string; user: User | undefined; au
         <MainMenuItem item={{ id: "assistant", text: "AI Assistant", icon: wand, route: "/assistant", selected: false }} />
       </MainMenu>
 
-      <div class="environment_new_main_panel">
+      <div class="project_new_main_panel">
 
-        <div class="main_panel_content" autocomplete="off">
+        <div class="project_new_main_panel_content" autocomplete="off">
 
-          <div class="main_panel_header">
+          <div class="project_new_main_panel_header">
             New Project
           </div>
 
-          <InputField id="experiment_name" placeholder="Name" focus={true} type="singleline" rows={1} value={name} setValue={setName} />
+          <InputField id="project_new_description" placeholder="Project Description"
+            focus={true} type="multiline" rows={6}
+            value={description} setValue={setDescription}
+            helpText="First, type a simple description of your project." />
+
+
+          <InputField id="experiment_name" placeholder="Name" focus={false} type="singleline" rows={1} value={name} setValue={setName} />
           <InputField id="experiment_description" placeholder="Description" focus={false} type="multiline" rows={4} value={description} setValue={setDescription} />
 
           <div class="environment_location_select">
@@ -122,7 +128,7 @@ export function NewEnvironment(props: { path: string; user: User | undefined; au
         </div>
         <div class="bottom_buttons_panel">
           <InputButton text="Submit" type="primary" action={() => submit()} />
-          <InputButton text="Cancel" type="secondary" action={() => route("/home")} />
+          <InputButton text="Back" type="secondary" action={() => history.back()} />
         </div>
       </div>
     </>
