@@ -1,4 +1,7 @@
 import { Router, route } from 'preact-router';
+
+import topbar from 'topbar';
+
 import { createHashHistory } from 'history';
 import { render } from 'preact'
 import { initializeApp } from "firebase/app";
@@ -8,24 +11,27 @@ import { SignedOut } from './views/signed-out/signed-out';
 import { SignIn } from './views/sign-in/sign-in';
 import { SignInPassword } from './views/sign-in-password/sign-in-password';
 import { SignInRegister } from './views/register-password/register-password';
-import { Home } from './views/home/home';
+
 import { Projects } from './views/projects/projects';
 import { ProjectNew } from './views/project-new/project-new';
-import { ProjectNew2 } from './views/project-new-2/project-new-2';
+import { ProjectNew2 } from './views/project-new/project-new-2';
+import { Project } from './views/project/project';
 
 import { NewExperiment } from './views/experiments-new/experiments-new';
 
 
 import './main.css'
 import { useEffect, useState } from 'preact/hooks';
-import { Experiment } from './views/project/project';
-import { AssistantChatHistory, ExperimentDefinition, ProjectDefinition } from './types';
+import { Workbenches } from './views/workbenches/workbenches';
+import { Workbench } from './views/workbench/workbench';
+
+import { AssistantChatHistory, WorkbenchDefinition, ProjectDefinition } from './types';
 import { AssistantView } from './views/assistant/assistant';
 
 function Main() {
 
   const [projects, setProjects] = useState<ProjectDefinition[]>([]);
-  const [experiments, setExperiments] = useState<ExperimentDefinition[]>([]);
+  const [workbenches, setWorkbenches] = useState<WorkbenchDefinition[]>([]);
 
   var config = {
     apiKey: "AIzaSyDWh5sExqNSMsT8Jj6-0q01j6KWL_UmX48",
@@ -39,6 +45,8 @@ function Main() {
   const auth = getAuth(app);
   // var currentUser: Signal<User | undefined> = signal(undefined);
   const [currentUser, setUser] = useState<User | undefined>();
+  const [currentProject, setCurrentProject] = useState<ProjectDefinition | undefined>();
+
   const [chats, setChats] = useState<AssistantChatHistory | undefined>(undefined);
 
   function sendCancelEvent() {
@@ -48,6 +56,29 @@ function Main() {
     // Next, we dispatch the event.
     document.dispatchEvent(event);
   }
+
+  topbar.config({
+    autoRun: true,
+    barThickness: 3,
+    barColors: {
+      '0': 'rgba(26,  188, 156, .9)',
+      '.25': 'rgba(52,  152, 219, .9)',
+      '.50': 'rgba(241, 196, 15,  .9)',
+      '.75': 'rgba(230, 126, 34,  .9)',
+      '1.0': 'rgba(211, 84,  0,   .9)'
+    },
+    shadowBlur: 10,
+    shadowColor: 'rgba(0,   0,   0,   .6)',
+    className: 'topbar'
+  });
+
+  document.addEventListener("showWait", () => {
+    topbar.show();
+  });
+
+  document.addEventListener("hideWait", () => {
+    topbar.hide();
+  });
 
   useEffect(() => {
 
@@ -99,8 +130,8 @@ function Main() {
       .then((response) => {
         return response.json();
       })
-      .then((data: { experiments: ExperimentDefinition[] }) => {
-        setExperiments(data.experiments);
+      .then((data: { experiments: WorkbenchDefinition[] }) => {
+        setWorkbenches(data.experiments);
       });
 
     fetch(import.meta.env.VITE_SERVICE_URL + "/data/projects", {
@@ -117,15 +148,30 @@ function Main() {
       });
   }, []);
 
-  function getExperiment(id: string): ExperimentDefinition | undefined {
+  function getWorkbench(id: string): WorkbenchDefinition | undefined {
     var result = undefined;
 
-    for (var i = 0; i < experiments.length; i++) {
-      if (experiments[i].id === id)
-        result = experiments[i];
+    for (var i = 0; i < workbenches.length; i++) {
+      if (workbenches[i].id === id)
+        result = workbenches[i];
     }
 
     return result;
+  }
+
+  function getProject(id: string): ProjectDefinition | undefined {
+    var result = undefined;
+
+    for (var i = 0; i < projects.length; i++) {
+      if (projects[i].id === id)
+        result = projects[i];
+    }
+
+    return result;
+  }
+
+  function setProject(project: ProjectDefinition) {
+    setCurrentProject(project);
   }
 
   function addProject(project: ProjectDefinition) {
@@ -135,11 +181,11 @@ function Main() {
     setProjects(newProjects);
   }
 
-  function addExperiment(experiment: ExperimentDefinition) {
-    var newExperiements: ExperimentDefinition[] = experiments;
-    newExperiements.push(experiment);
+  function addWorkbench(experiment: WorkbenchDefinition) {
+    var newWorkbenches: WorkbenchDefinition[] = workbenches;
+    newWorkbenches.push(experiment);
 
-    setExperiments(newExperiements);
+    setWorkbenches(newWorkbenches);
   }
 
   function updateChatHistory(chatHistory: AssistantChatHistory) {
@@ -163,13 +209,15 @@ function Main() {
         <SignIn path="/register" user={currentUser} auth={auth} registerUser={true} />
         <SignInPassword path="/sign-in-password" user={currentUser} auth={auth} />
         <SignInRegister path="/register-email" user={currentUser} auth={auth} />
-        <Home path="/home" user={currentUser} auth={auth} projects={projects} />
-        <Projects path="/home" user={currentUser} auth={auth} experiments={experiments} />
-        <ProjectNew path="/new-project" user={currentUser} auth={auth} addExperiment={addExperiment} addProject={addProject} />
-        <ProjectNew2 path="/new-project-details" user={currentUser} auth={auth} addExperiment={addExperiment} addProject={addProject} />
 
-        <Experiment path="/experiments/:id" id="" user={currentUser} auth={auth} getExperiment={getExperiment} />
-        <NewExperiment path="/new-experiment" user={currentUser} auth={auth} addExperiment={addExperiment} />
+        <Projects path="/home" user={currentUser} auth={auth} projects={projects} />
+        <ProjectNew path="/new-project" user={currentUser} auth={auth} addProject={addProject} currentProject={currentProject} setCurrentProject={setProject} />
+        <ProjectNew2 path="/new-project-details" user={currentUser} auth={auth} addProject={addProject} currentProject={currentProject} />
+        <Project path="/projects/:id" id="" getProject={getProject} user={currentUser} auth={auth} />
+
+        <Workbenches path="/workbenches" user={currentUser} auth={auth} workbenches={workbenches} />
+        <Workbench path="/workbenches/:id" id="" user={currentUser} auth={auth} getWorkbench={getWorkbench} />
+        {/* <NewExperiment path="/new-experiment" user={currentUser} auth={auth} addExperiment={addExperiment} /> */}
         <AssistantView path="/assistant" user={currentUser} auth={auth} chats={chats} onChatUpdate={updateChatHistory} />
       </Router>
     </div>

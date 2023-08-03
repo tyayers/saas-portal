@@ -2,12 +2,12 @@ export interface ProjectDefinition {
   id: string;
   name: string;
   description: string;
-  locationType: string;
-  locationRegion: string;
-  size: string;
+  organs: string[];
+  team: string;
+  status: string;
 }
 
-export interface ExperimentDefinition {
+export interface WorkbenchDefinition {
   id: string;
   name: string;
   description: string;

@@ -77,26 +77,39 @@ class language_manager:
         )                
 
         for entity in response.entities:
-            print(f"Representative name for the entity: {entity.name}")
 
-            # Get entity type, e.g. PERSON, LOCATION, ADDRESS, NUMBER, et al
-            print(f"Entity type: {language_v1.Entity.Type(entity.type_).name}")
+            pieces = entity.name.split(" ")
 
-            # Get the salience score associated with the entity in the [0, 1.0] range
-            print(f"Salience score: {entity.salience}")
+            while "" in pieces:
+              pieces.remove("")
 
-            results.append({
-                "name": entity.name,
-                "type": entity.type,
-                "salience": entity.salience
-            })
-
+            for piece in pieces:
+                results.append({
+                    "name": piece,
+                    "type": entity.type,
+                    "salience": entity.salience,
+                    "isHumanOrgan": self.getIfHumanOrgan(piece)
+                })
 
         web.header("Access-Control-Allow-Origin", "*")
         web.header("Content-Type", "application/json")
 
         return json.dumps({"description": description, "entities": results})
 
+    def getIfHumanOrgan(self, term):
+        parameters = {
+          "temperature": 0.2,
+          "max_output_tokens": 256,
+          "top_p": 0.8,
+          "top_k": 40            
+        }
+        model = TextGenerationModel.from_pretrained("text-bison@001")
+        response = model.predict(
+            "answer the following question with either true or false. Is" + term + " a human organ?",
+            **parameters
+        )
+
+        return response.text
 
 class prompt_manager:
     def POST(self):

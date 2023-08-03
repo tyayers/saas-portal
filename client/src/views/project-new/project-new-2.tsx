@@ -9,38 +9,72 @@ import wand from "../../assets/wand.svg";
 import { useState } from 'preact/hooks';
 import { User, Auth } from "firebase/auth";
 
-import "./project-new-2.css"
+import "./project-new.css"
 import { route } from "preact-router";
 import { ExperimentDefinition, ProjectDefinition } from "../../types";
 
-export function ProjectNew2(props: { path: string; user: User | undefined; auth: Auth; addExperiment: (experiment: ExperimentDefinition) => void; addProject: (project: ProjectDefinition) => void }) {
+export function ProjectNew2(props: {
+  path: string; user: User | undefined; auth: Auth;
+  addProject: (project: ProjectDefinition) => void;
+  currentProject: ProjectDefinition | undefined
+}) {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [location, setLocation] = useState("global");
-  const [region, setRegion] = useState("europe-west4");
-  const [size, setSize] = useState("xs");
+  const [organs, setOrgans] = useState("");
+  const [team, setTeam] = useState("");
+
+  // Send wait event to display progress bar
+  document.dispatchEvent(new Event("hideWait"));
+
+  // if (organs === "") {
+  //   if (props.currentProject && props.currentProject.organs && props.currentProject.organs.length > 0) {
+  //     for (var i = 0; i < props.currentProject.organs.length; i++) {
+  //       if (organs === "")
+  //         setOrgans(props.currentProject.organs[i]);
+  //       else
+  //         setOrgans(organs + ", " + props.currentProject.organs[i]);
+  //     }
+  //   }
+  // }
+
+
+  // const [location, setLocation] = useState("global");
+  // const [region, setRegion] = useState("europe-west4");
+  // const [size, setSize] = useState("xs");
+
+  if (!props.currentProject) {
+    props.currentProject = {
+      id: "",
+      name: "",
+      description: "",
+      status: "",
+      team: ""
+    }
+  }
 
   function submit() {
 
-    if (!name) {
+    if (!props.currentProject || !props.currentProject.name) {
       alert("Please provide a name for the project!");
     }
-    else if (!description) {
+    else if (!props.currentProject || !props.currentProject.description) {
       alert("Please provide a description for the project!");
     }
     else {
-      var newProject: ProjectDefinition = {
-        id: name.toLowerCase().replace(" ", "_") + "_" + (new Date()).getTime().toString(),
-        name: name,
-        description: description,
-        locationType: location,
-        locationRegion: region,
-        size: size
-      }
+      // var newProject: ProjectDefinition = {
+      //   id: name.toLowerCase().replace(" ", "_") + "_" + (new Date()).getTime().toString(),
+      //   name: name,
+      //   description: description,
+      //   locationType: location,
+      //   locationRegion: region,
+      //   size: size
+      // }
+
+      props.currentProject.status = "Initializing"
 
       fetch(import.meta.env.VITE_SERVICE_URL + "/data/projects", {
-        body: JSON.stringify(newProject),
+        body: JSON.stringify(props.currentProject),
         method: "POST",
         headers: {
           Accept: "application/json"
@@ -77,16 +111,21 @@ export function ProjectNew2(props: { path: string; user: User | undefined; auth:
             New Project
           </div>
 
-          <InputField id="project_new_description" placeholder="Project Description"
-            focus={true} type="multiline" rows={6}
-            value={description} setValue={setDescription}
-            helpText="First, type a simple description of your project." />
+          <InputField id="project_name" placeholder="Name" focus={true} type="singleline"
+            rows={1} value={props.currentProject.name} setValue={setName} />
 
+          <InputField id="project_new_description" placeholder="Description"
+            focus={false} type="multiline" rows={12}
+            value={props.currentProject?.description} setValue={setDescription} />
 
-          <InputField id="experiment_name" placeholder="Name" focus={false} type="singleline" rows={1} value={name} setValue={setName} />
-          <InputField id="experiment_description" placeholder="Description" focus={false} type="multiline" rows={4} value={description} setValue={setDescription} />
+          <InputField id="project_organs" placeholder="Organs" focus={false} type="singleline"
+            rows={1} value={props.currentProject?.organs} setValue={setOrgans} />
 
-          <div class="environment_location_select">
+          <InputField id="project_team" placeholder="Team" focus={false} type="singleline"
+            rows={1} value={team} setValue={setTeam}
+            helpText="Enter your team members or groups here." />
+
+          {/* <div class="environment_location_select">
             <div class="environment_location_select_label">Location</div>
             <InputButton text={"Global"} action={() => { setLocation("global"); setRegion("europe-west4"); }} type={location == "global" ? "primary" : "secondary"}></InputButton>
             <InputButton text={"Sovereign"} action={() => { setLocation("sovereign"); setRegion("germany"); }} type={location == "sovereign" ? "primary" : "secondary"}></InputButton>
@@ -123,7 +162,7 @@ export function ProjectNew2(props: { path: string; user: User | undefined; auth:
               <option value="lgpu">16xCPU 32 GB RAM GPU</option>
               <option value="ltpu">16xCPU 32 GB RAM TPU</option>
             </InputSelect>
-          </div>
+          </div> */}
 
         </div>
         <div class="bottom_buttons_panel">

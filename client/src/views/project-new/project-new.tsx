@@ -15,7 +15,12 @@ import "./project-new.css"
 import { route } from "preact-router";
 import { ExperimentDefinition, ProjectDefinition } from "../../types";
 
-export function ProjectNew(props: { path: string; user: User | undefined; auth: Auth; addExperiment: (experiment: ExperimentDefinition) => void; addProject: (project: ProjectDefinition) => void }) {
+export function ProjectNew(props: {
+  path: string; user: User | undefined; auth: Auth;
+  addProject: (project: ProjectDefinition) => void;
+  currentProject: ProjectDefinition | undefined;
+  setCurrentProject: (project: ProjectDefinition) => void;
+}) {
 
   const [name, setName] = useState("");
   const [originalDescription, setOriginalDescription] = useState("");
@@ -27,6 +32,10 @@ export function ProjectNew(props: { path: string; user: User | undefined; auth: 
   const [location, setLocation] = useState("global");
   const [region, setRegion] = useState("europe-west4");
   const [size, setSize] = useState("xs");
+
+  if (props.currentProject) {
+    setDescription(props.currentProject.description);
+  }
 
   function onDescriptionInput(newInput: string) {
     setDescription(newInput);
@@ -61,7 +70,7 @@ export function ProjectNew(props: { path: string; user: User | undefined; auth: 
       })
       .then((data: { question: string, answer: string }) => {
         setDescription(data.answer);
-        setDescriptionHelpText("You can click AI Remix again for another try, or undo to get the best description.");
+        setDescriptionHelpText("You can click AI Remix again for another try, change the description manually, or press submit to continue.");
         setGenProcessing(false);
         // setDisplayGenDescription(true);
         //document.getElementById("project_new_generated_text").innerText = data.answer
@@ -75,7 +84,72 @@ export function ProjectNew(props: { path: string; user: User | undefined; auth: 
       alert("Please provide a description for the project!");
     }
     else {
-      route("/new-project-details")
+
+      // Send wait event to display progress bar
+      document.dispatchEvent(new Event("showWait"));
+
+      fetch(import.meta.env.VITE_SERVICE_URL + "/language/entities", {
+        body: JSON.stringify({
+          "description": originalDescription
+        }),
+        method: "POST",
+        headers: {
+          Accept: "application/json"
+        },
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data: { description: string, entities: [{ name: string, type: number, salience: number, isHumanOrgan: string }] }) => {
+
+          let generatedTitle: string = "";
+          let organs: string[] = [];
+          let usedWords: string[] = [];
+
+          for (var i = 0; i < data.entities.length; i++) {
+            let newWord = data.entities[i].name.toLowerCase();
+
+            let wordAlreadyUsed = false;
+            for (let p = 0; p < usedWords.length; p++) {
+              if (usedWords[p].includes(newWord)) {
+                wordAlreadyUsed = true;
+                break;
+              }
+            }
+
+            if (!wordAlreadyUsed && usedWords.length <= 3) {
+              if (generatedTitle === "")
+                generatedTitle = newWord[0].toUpperCase() + newWord.slice(1).toLowerCase()
+              else
+                generatedTitle = generatedTitle + " " + newWord[0].toUpperCase() + newWord.slice(1).toLowerCase()
+
+              usedWords.push(newWord);
+            }
+
+            if (data.entities[i].isHumanOrgan === "true") {
+              organs.push(newWord[0].toUpperCase() + newWord.slice(1).toLowerCase())
+            };
+          }
+
+          let newProject = props.currentProject;
+          if (newProject === undefined) {
+            newProject = {
+              id: "",
+              name: "",
+              description: "",
+              status: "Initializing",
+              team: "",
+              organs: organs
+            }
+          }
+
+          newProject.id = generatedTitle.toLowerCase().replace(" ", "_") + "_" + (new Date()).getTime().toString()
+          newProject.name = generatedTitle;
+          newProject.description = description;
+          props.setCurrentProject(newProject);
+
+          route("/new-project-details")
+        });
     }
   }
 

@@ -109,3 +109,41 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.standard_main_panel {
+  background: var(--primary-background-color);
+  position: absolute;
+  left: 280px;
+  top: 58px;
+  width: calc(100vw - 312px);
+  bottom: 0px;
+  padding: 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  align-content: flex-start;
+  flex-flow: column;
+}
+
+.standard_main_panel_header {
+  width: 100%;
+  font-size: 28px;
+}
+
+.standard_main_paragraph {
+  max-width: 784px;
+  margin-bottom: 10px;
+  border-radius: 14px;
+  border: 1px #eee solid;
+  padding: 14px;
+}
+
+.standard_main_paragraph:hover {
+  background: var(--secondary-light-color);
+  cursor: default;
+}
+
+.topbar {
+  margin-top: 56px !important;
+}

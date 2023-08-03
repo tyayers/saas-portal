@@ -9,7 +9,7 @@ export function MainMenu(props: { children: string | number | bigint | boolean |
 
   return (
     <div class="main_menu">
-      <div class="main_menu_create_button" onClick={() => route("/new-environment")}>
+      <div class="main_menu_create_button" onClick={() => route("/new-project")}>
         <img class="main_menu_create_icon" src={addIcon}></img>
         <span class="main_menu_create_text">Create Project</span>
       </div>
