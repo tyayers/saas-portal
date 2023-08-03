@@ -1,6 +1,8 @@
 import { Router, route } from 'preact-router';
-
+import { useEffect, useState } from 'preact/hooks';
 import topbar from 'topbar';
+
+import './main.css'
 
 import { createHashHistory } from 'history';
 import { render } from 'preact'
@@ -17,21 +19,28 @@ import { ProjectNew } from './views/project-new/project-new';
 import { ProjectNew2 } from './views/project-new/project-new-2';
 import { Project } from './views/project/project';
 
-import { NewExperiment } from './views/experiments-new/experiments-new';
+import { Datasets } from './views/datasets/datasets';
 
-
-import './main.css'
-import { useEffect, useState } from 'preact/hooks';
 import { Workbenches } from './views/workbenches/workbenches';
 import { Workbench } from './views/workbench/workbench';
 
-import { AssistantChatHistory, WorkbenchDefinition, ProjectDefinition } from './types';
+import { AssistantChatHistory, WorkbenchDefinition, ProjectDefinition, DatasetDefinition } from './types';
 import { AssistantView } from './views/assistant/assistant';
 
 function Main() {
 
   const [projects, setProjects] = useState<ProjectDefinition[]>([]);
   const [workbenches, setWorkbenches] = useState<WorkbenchDefinition[]>([]);
+  const [datasets, setDatasets] = useState<DatasetDefinition[]>([
+    {
+      "id": "lung_ctscans_v3",
+      "name": "Lung CT Scans version 3",
+      "organs": ["Lung"],
+      "status": "Level 1 Accessable",
+      "source": "Synthetic Data Generation",
+      "lastUpdated": ""
+    }
+  ]);
 
   var config = {
     apiKey: "AIzaSyDWh5sExqNSMsT8Jj6-0q01j6KWL_UmX48",
@@ -218,6 +227,9 @@ function Main() {
         <Workbenches path="/workbenches" user={currentUser} auth={auth} workbenches={workbenches} />
         <Workbench path="/workbenches/:id" id="" user={currentUser} auth={auth} getWorkbench={getWorkbench} />
         {/* <NewExperiment path="/new-experiment" user={currentUser} auth={auth} addExperiment={addExperiment} /> */}
+
+        <Datasets path="/datasets" user={currentUser} auth={auth} datasets={datasets} />
+
         <AssistantView path="/assistant" user={currentUser} auth={auth} chats={chats} onChatUpdate={updateChatHistory} />
       </Router>
     </div>

@@ -6,13 +6,13 @@ import flask from "../../assets/flask.svg";
 import wand from "../../assets/wand.svg";
 import data from "../../assets/data.svg";
 
-import "./workbenches.css";
+import "./datasets.css";
 
 import { Auth, User } from "firebase/auth";
 import { route } from "preact-router";
-import { WorkbenchDefinition } from "../../types";
+import { DatasetDefinition } from "../../types";
 
-export function Workbenches(props: { path: string, user: User | undefined, auth: Auth, workbenches: WorkbenchDefinition[] }) {
+export function Datasets(props: { path: string, user: User | undefined, auth: Auth, datasets: DatasetDefinition[] }) {
 
   return (
     <>
@@ -20,31 +20,33 @@ export function Workbenches(props: { path: string, user: User | undefined, auth:
 
       <MainMenu>
         <MainMenuItem item={{ id: "projects", text: "My Projects", icon: box, route: "/home", selected: false }} />
-        <MainMenuItem item={{ id: "workbenches", text: "My Workbenches", icon: flask, route: "/workbenches", selected: true }} />
-        <MainMenuItem item={{ id: "datasets", text: "Datasets", icon: data, route: "/datasets", selected: false }} />
+        <MainMenuItem item={{ id: "workbenches", text: "My Workbenches", icon: flask, route: "/workbenches", selected: false }} />
+        <MainMenuItem item={{ id: "datasets", text: "Datasets", icon: data, route: "/datasets", selected: true }} />
         <MainMenuItem item={{ id: "assistant", text: "AI Assistant", icon: wand, route: "/assistant", selected: false }} />
       </MainMenu>
 
       <div class="main_panel">
         <div class="main_panel_header">
-          Workbenches <span class="main_panel_header_top_button">+ Create new</span>
+          Datasets
         </div>
         <table class="styled-table">
           <thead>
             <tr>
               <th>Name</th>
-              <th>Organ</th>
+              <th>Organs</th>
+              <th>Source</th>
               <th>Status</th>
               <th>Last Updated</th>
             </tr>
           </thead>
           <tbody>
-            {props.workbenches.map((workbench) => (
-              <tr onClick={() => route("/workbenches/" + workbench.id)}>
-                <td>{workbench.name}</td>
-                <td>{workbench.organ}</td>
-                <td>{workbench.status}</td>
-                <td>{workbench.lastUpdated}</td>
+            {props.datasets.map((dataset) => (
+              <tr>
+                <td>{dataset.name}</td>
+                <td>{dataset.organs}</td>
+                <td>{dataset.source}</td>
+                <td>{dataset.status}</td>
+                <td>{dataset.lastUpdated}</td>
               </tr>
             ))
             }

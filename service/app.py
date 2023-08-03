@@ -168,7 +168,7 @@ class chat_manager:
     def POST(self):
         inputData = {}
         question = ""
-        model = os.environ.get("ASSISTANT_MODEL")
+        model = "chat-bison" #os.environ.get("ASSISTANT_MODEL")
         if web.data():
             print("have web data")
             inputData = json.loads(web.data())
@@ -179,14 +179,8 @@ class chat_manager:
         print("Calling vertex LLM model with question: " + question)
 
         answer = self.predict_large_language_model(
-            os.environ.get("GCLOUD_PROJECT"),
             model,
-            float(os.environ.get("ASSISTANT_TEMPERATURE")),
-            int(os.environ.get("ASSISTANT_MAX_OUTPUT_TOKENS")),
-            float(os.environ.get("ASSISTANT_TOP_P")),
-            int(os.environ.get("ASSISTANT_TOP_K")),
-            question,
-            os.environ.get("ASSISTANT_MODEL_REGION"),
+            question
         )
 
         web.header("Access-Control-Allow-Origin", "*")
@@ -196,21 +190,15 @@ class chat_manager:
 
     def predict_large_language_model(
         self,
-        project_id: str,
         model_name: str,
-        temperature: float,
-        max_output_tokens: int,
-        top_p: float,
-        top_k: int,
-        question: str,
-        location: str,
+        question: str
     ):
         chat_model = ChatModel.from_pretrained(model_name)
         parameters = {
-            "temperature": temperature,
-            "max_output_tokens": max_output_tokens,
-            "top_p": top_p,
-            "top_k": top_k,
+          "temperature": 0.2,
+          "max_output_tokens": 256,
+          "top_p": 0.8,
+          "top_k": 40   
         }
 
         chat = chat_model.start_chat(

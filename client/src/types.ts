@@ -17,6 +17,15 @@ export interface WorkbenchDefinition {
   docs: { [key: string]: { name: string; content: string }[] };
 }
 
+export interface DatasetDefinition {
+  id: string;
+  name: string;
+  source: string;
+  status: string;
+  organs?: string[];
+  lastUpdated: string;
+}
+
 export interface AssistantChatHistory {
   id: string | undefined;
   userEmail: string | null | undefined;

@@ -32,8 +32,9 @@ export function Workbench(props: { path: string, user: User | undefined, auth: A
       <Header user={props.user} auth={props.auth} showSearch={true} />
 
       <MainMenu>
-        <MainMenuItem item={{ id: "environments", text: "My Projects", icon: box, route: "/home", selected: false }} />
-        <MainMenuItem item={{ id: "experiments", text: "My Workbenches", icon: flask, route: "/workbenches", selected: true }} />
+        <MainMenuItem item={{ id: "projects", text: "My Projects", icon: box, route: "/home", selected: false }} />
+        <MainMenuItem item={{ id: "workbenches", text: "My Workbenches", icon: flask, route: "/workbenches", selected: true }} />
+        <MainMenuItem item={{ id: "datasets", text: "Datasets", icon: data, route: "/datasets", selected: false }} />
         <MainMenuItem item={{ id: "assistant", text: "AI Assistant", icon: wand, route: "/assistant", selected: false }} />
       </MainMenu>
 

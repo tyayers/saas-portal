@@ -8,6 +8,7 @@ import box from "../../assets/box.svg";
 import flask from "../../assets/flask.svg";
 import wand from "../../assets/wand.svg";
 import sparkle from "../../assets/sparkle.gif"
+import data from "../../assets/data.svg";
 
 import "./assistant.css";
 import { Assistant } from "../../components/assistant/assistant";
@@ -57,8 +58,9 @@ export function AssistantView(props: { path: string, user: User | undefined, aut
       <Header user={props.user} auth={props.auth} showSearch={true} />
 
       <MainMenu>
-        <MainMenuItem item={{ id: "environments", text: "My Projects", icon: box, route: "/home", selected: false }} />
-        <MainMenuItem item={{ id: "experiments", text: "My Workbenches", icon: flask, route: "/experiments", selected: false }} />
+        <MainMenuItem item={{ id: "projects", text: "My Projects", icon: box, route: "/home", selected: false }} />
+        <MainMenuItem item={{ id: "workbenches", text: "My Workbenches", icon: flask, route: "/workbenches", selected: false }} />
+        <MainMenuItem item={{ id: "datasets", text: "Datasets", icon: data, route: "/datasets", selected: false }} />
         <MainMenuItem item={{ id: "assistant", text: "AI Assistant", icon: wand, route: "/assistant", selected: true }} />
       </MainMenu>
 
