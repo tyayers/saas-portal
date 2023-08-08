@@ -3,8 +3,10 @@ export interface ProjectDefinition {
   name: string;
   description: string;
   organs: string[];
+  disease: string;
   team: string;
   status: string;
+  docs: { name: string; content: string }[];
 }
 
 export interface WorkbenchDefinition {

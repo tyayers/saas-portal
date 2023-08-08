@@ -5,6 +5,10 @@ import box from "../../assets/box.svg";
 import flask from "../../assets/flask.svg";
 import wand from "../../assets/wand.svg";
 import data from "../../assets/data.svg";
+import jupyter from "../../assets/jupyter.png";
+import slicer from "../../assets/slicer.png";
+import vertex from "../../assets/vertex.png";
+import gcp from "../../assets/gcp.png";
 
 import "./workbenches.css";
 
@@ -27,15 +31,15 @@ export function Workbenches(props: { path: string, user: User | undefined, auth:
 
       <div class="main_panel">
         <div class="main_panel_header">
-          Workbenches <span class="main_panel_header_top_button">+ Create new</span>
+          Workbenches <span class="main_panel_header_top_button" onClick={() => route("/new-workbench")}>+ Create new</span>
         </div>
-        <table class="styled-table">
+        <table class="standard_main_table">
           <thead>
             <tr>
               <th>Name</th>
               <th>Organ</th>
               <th>Status</th>
-              <th>Last Updated</th>
+              <th>Connect</th>
             </tr>
           </thead>
           <tbody>
@@ -44,7 +48,12 @@ export function Workbenches(props: { path: string, user: User | undefined, auth:
                 <td>{workbench.name}</td>
                 <td>{workbench.organ}</td>
                 <td>{workbench.status}</td>
-                <td>{workbench.lastUpdated}</td>
+                <td onClick={(e) => { e.stopPropagation(); }}>
+                  <img class="workbench_start_icon" title="Open Jupyter Labs" src={jupyter}></img>
+                  <img class="workbench_start_icon" title="Open 3D Slicer" src={slicer}></img>
+                  <img class="workbench_start_icon" title="Open Vertex AI" src={vertex}></img>
+                  <img class="workbench_start_icon" title="Open Google Cloud" src={gcp}></img>
+                </td>
               </tr>
             ))
             }

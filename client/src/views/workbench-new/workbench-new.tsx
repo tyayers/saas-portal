@@ -6,14 +6,16 @@ import { InputButton } from "../../components/input-button/input-button";
 import box from "../../assets/box.svg";
 import flask from "../../assets/flask.svg";
 import wand from "../../assets/wand.svg";
+import data from "../../assets/data.svg";
+
 import { useState } from 'preact/hooks';
 import { User, Auth } from "firebase/auth";
 
-import "./experiments-new.css"
+import "./workbench-new.css"
 import { route } from "preact-router";
-import { ExperimentDefinition } from "../../types";
+import { WorkbenchDefinition } from "../../types";
 
-export function NewExperiment(props: { path: string; user: User | undefined; auth: Auth; addExperiment: (experiment: ExperimentDefinition) => void }) {
+export function NewWorkbench(props: { path: string; user: User | undefined; auth: Auth; addExperiment: (experiment: WorkbenchDefinition) => void }) {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -21,7 +23,7 @@ export function NewExperiment(props: { path: string; user: User | undefined; aut
 
   function addExperiment() {
 
-    var exp: ExperimentDefinition = {
+    var exp: WorkbenchDefinition = {
       id: name.toLowerCase().replace(" ", "_") + "_" + (new Date()).getTime().toString(),
       name: name,
       description: description,
@@ -41,7 +43,7 @@ export function NewExperiment(props: { path: string; user: User | undefined; aut
       .then((response) => {
         return response.json();
       })
-      .then((data: ExperimentDefinition) => {
+      .then((data: WorkbenchDefinition) => {
         console.log("Successfully saved experiement to server.")
         console.log(data);
 
@@ -57,6 +59,7 @@ export function NewExperiment(props: { path: string; user: User | undefined; aut
       <MainMenu>
         <MainMenuItem item={{ id: "environments", text: "My Projects", icon: box, route: "/home", selected: false }} />
         <MainMenuItem item={{ id: "experiments", text: "My Workbenches", icon: flask, route: "/experiments", selected: true }} />
+        <MainMenuItem item={{ id: "datasets", text: "Datasets", icon: data, route: "/datasets", selected: false }} />
         <MainMenuItem item={{ id: "assistant", text: "AI Assistant", icon: wand, route: "/assistant", selected: false }} />
       </MainMenu>
 
@@ -74,7 +77,7 @@ export function NewExperiment(props: { path: string; user: User | undefined; aut
         </div>
         <div class="bottom_buttons_panel">
           <InputButton text="Submit" type="primary" action={() => addExperiment()} />
-          <InputButton text="Cancel" type="secondary" action={() => route("/experiments")} />
+          <InputButton text="Cancel" type="secondary" action={() => route("/workbenches")} />
         </div>
       </div>
     </>

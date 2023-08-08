@@ -14,12 +14,8 @@
       "env": {
         "GCLOUD_PROJECT": "cloud32x",
         "CHAT_MODEL": "chat-bison",
-        "PROMPT_MODEL": "text-bision",
+        "PROMPT_MODEL": "text-bison@001",
         "ASSISTANT_MODEL_REGION": "us-central1",
-        "ASSISTANT_TEMPERATURE": "0.2",
-        "ASSISTANT_MAX_OUTPUT_TOKENS": "256",
-        "ASSISTANT_TOP_P": "0.8",
-        "ASSISTANT_TOP_K": "40",
         "ASSISTANT_CONTEXT": "",
         // "ASSISTANT_CONTEXT": "You are an assistant to a medical data scientist helping to develop machine learning models to better diagnose diseases such as liver or lung cancer.",
         "ASSISTANT_EXAMPLE_QUESTION1": "what is the best AI model approach for recognizing liver lesions?",

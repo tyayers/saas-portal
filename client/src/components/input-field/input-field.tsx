@@ -2,7 +2,6 @@ import { useEffect, useState } from "preact/hooks";
 import "./input-field.css"
 import { JSX } from "preact/jsx-runtime";
 import { createRef } from "preact";
-import wand from "../../assets/wand.svg";
 
 export function InputField(props: {
   id: string, placeholder: string, focus: boolean,
@@ -11,13 +10,11 @@ export function InputField(props: {
 }) {
 
   let ref = createRef();
-  const [initialValue] = useState(props.value);
   const [input, setInput] = useState(props.value);
   const [hasFocus, setHasFocus] = useState(false);
   const [displayHelp, setDisplayHelp] = useState(true);
   const [xCoordinate, setXCoordidate] = useState(-1);
   const [yCoordinate, setYCoordidate] = useState(-1);
-  const [height, setHeight] = useState(-1);
 
   useEffect(() => {
     // access the associated DOM element:
@@ -29,7 +26,7 @@ export function InputField(props: {
       if (rect) {
         setXCoordidate(rect.x);
         setYCoordidate(rect.y);
-        setHeight(rect.height);
+        //setHeight(rect.height);
       }
     }
 

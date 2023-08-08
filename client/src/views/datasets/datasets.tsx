@@ -9,7 +9,6 @@ import data from "../../assets/data.svg";
 import "./datasets.css";
 
 import { Auth, User } from "firebase/auth";
-import { route } from "preact-router";
 import { DatasetDefinition } from "../../types";
 
 export function Datasets(props: { path: string, user: User | undefined, auth: Auth, datasets: DatasetDefinition[] }) {

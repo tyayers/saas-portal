@@ -9,12 +9,23 @@ import { Auth, User } from "firebase/auth";
 import { ProjectDefinition } from "../../types";
 import { useEffect, useState } from "preact/hooks";
 
+import "./project.css";
+
 export function Project(props: { id: string; getProject: (id: string) => ProjectDefinition | undefined; path: string, user: User | undefined, auth: Auth }) {
 
-  const [project, setProject] = useState(props.getProject(props.id))
+  const [project, setProject] = useState(props.getProject(props.id));
+  const [docContent, setDocContent] = useState("");
+  const [docVisible, setDocVisible] = useState(false);
 
   useEffect(() => {
-    if (!project) setProject(props.getProject(props.id));
+    if (!project) {
+      var new_project = props.getProject(props.id);
+
+      if (new_project) {
+        setProject(new_project);
+      }
+
+    }
   })
 
   return (
@@ -33,19 +44,53 @@ export function Project(props: { id: string; getProject: (id: string) => Project
           {project?.name}
         </div>
         <h3>Overview</h3>
-        <span class="standard_main_paragraph"><b>Description: </b><span contentEditable={true}>{project?.description}</span></span>
+        <span class="standard_main_paragraph"><b>Description: </b><span>{project?.description}</span></span>
         {project?.organs &&
-          <span class="standard_main_paragraph"><b>Organs: </b><span contentEditable={true}>{project?.organs}</span></span>
+          <span class="standard_main_paragraph"><b>Organs: </b><span>{project?.organs}</span></span>
         }
-        {project?.organs &&
-          <span class="standard_main_paragraph"><b>Status: </b>{project?.status}</span>
+        {project?.disease &&
+          <span class="standard_main_paragraph"><b>Disease: </b>{project?.disease}</span>
         }
         {project?.team &&
           <span class="standard_main_paragraph"><b>Team: </b>{project?.team}</span>
         }
 
         <h3>Regulatory Documentation</h3>
+
+        <table class="standard_main_table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Last Updated</th>
+            </tr>
+          </thead>
+          <tbody>
+            {project?.docs && project.docs.map((doc: { name: string, content: string }) => (
+              <tr onClick={() => { if (doc.content) { setDocContent(doc.content); setDocVisible(true); } }}>
+                <td>{doc.name}</td>
+                {doc.content ?
+                  <td>Generated</td>
+                  :
+                  <td>Generating...</td>
+                }
+                <td>April 23rd, 2023</td>
+              </tr>
+            ))
+            }
+          </tbody>
+        </table>
+
       </div>
+
+      {docVisible &&
+        <div class="project_popup" onClick={() => { setDocVisible(false); }}>
+          <div class="project_popup_doc" dangerouslySetInnerHTML={{ __html: docContent }} onClick={(e) => { e.stopPropagation(); }}>
+
+          </div>
+        </div>
+      }
+
     </>
   )
 }

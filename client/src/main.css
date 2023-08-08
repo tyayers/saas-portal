@@ -135,8 +135,11 @@ button:focus-visible {
   max-width: 784px;
   margin-bottom: 10px;
   border-radius: 14px;
-  border: 1px #eee solid;
-  padding: 14px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 2px;
+  /* border: 1px #eee solid; */
+
 }
 
 .standard_main_paragraph:hover {
@@ -147,3 +150,47 @@ button:focus-visible {
 .topbar {
   margin-top: 56px !important;
 }
+
+.standard_main_table {
+  border-collapse: collapse;
+  margin: 8px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); */
+  width: 100%;
+}
+
+.standard_main_table thead tr {
+  background-color: #4e4e4e00;
+  color: #606060;
+  text-align: left;
+  border-bottom: 2px solid #6a6a6a;
+}
+
+.standard_main_table th,
+.standard_main_table td {
+  padding: 12px 15px;
+}
+
+.standard_main_table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.standard_main_table tbody tr:hover {
+  background-color: var(--secondary-light-color);
+  cursor: pointer;
+}
+
+/* .styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+} */
+
+.standard_main_table tbody tr:last-of-type {
+  /* border-bottom: 2px solid #6a6a6a; */
+}
+
+/* .styled-table tbody tr.active-row {
+  font-weight: bold;
+  color: #009879;
+} */

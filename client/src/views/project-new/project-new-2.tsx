@@ -2,7 +2,6 @@ import { Header } from "../../components/header/header"
 import { MainMenu, MainMenuItem } from "../../components/main-menu/main-menu";
 import { InputField } from "../../components/input-field/input-field";
 import { InputButton } from "../../components/input-button/input-button";
-import { InputSelect } from "../../components/input-select/input-select";
 import box from "../../assets/box.svg";
 import flask from "../../assets/flask.svg";
 import wand from "../../assets/wand.svg";
@@ -11,7 +10,7 @@ import { User, Auth } from "firebase/auth";
 
 import "./project-new.css"
 import { route } from "preact-router";
-import { ExperimentDefinition, ProjectDefinition } from "../../types";
+import { ProjectDefinition } from "../../types";
 
 export function ProjectNew2(props: {
   path: string; user: User | undefined; auth: Auth;
@@ -19,35 +18,19 @@ export function ProjectNew2(props: {
   currentProject: ProjectDefinition | undefined
 }) {
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [organs, setOrgans] = useState("");
   const [team, setTeam] = useState("");
 
   // Send wait event to display progress bar
   document.dispatchEvent(new Event("hideWait"));
-
-  // if (organs === "") {
-  //   if (props.currentProject && props.currentProject.organs && props.currentProject.organs.length > 0) {
-  //     for (var i = 0; i < props.currentProject.organs.length; i++) {
-  //       if (organs === "")
-  //         setOrgans(props.currentProject.organs[i]);
-  //       else
-  //         setOrgans(organs + ", " + props.currentProject.organs[i]);
-  //     }
-  //   }
-  // }
-
-
-  // const [location, setLocation] = useState("global");
-  // const [region, setRegion] = useState("europe-west4");
-  // const [size, setSize] = useState("xs");
 
   if (!props.currentProject) {
     props.currentProject = {
       id: "",
       name: "",
       description: "",
+      organs: [],
+      docs: [],
+      disease: "",
       status: "",
       team: ""
     }
@@ -62,14 +45,6 @@ export function ProjectNew2(props: {
       alert("Please provide a description for the project!");
     }
     else {
-      // var newProject: ProjectDefinition = {
-      //   id: name.toLowerCase().replace(" ", "_") + "_" + (new Date()).getTime().toString(),
-      //   name: name,
-      //   description: description,
-      //   locationType: location,
-      //   locationRegion: region,
-      //   size: size
-      // }
 
       props.currentProject.status = "Initializing"
 
@@ -88,6 +63,16 @@ export function ProjectNew2(props: {
           console.log(data);
 
           props.addProject(data);
+
+          // Start doc generation as well
+          fetch(import.meta.env.VITE_SERVICE_URL + "/docs/" + data.id, {
+            body: JSON.stringify(data),
+            method: "POST",
+            headers: {
+              Accept: "application/json"
+            },
+          });
+
           route("/home");
         });
     }
@@ -112,14 +97,17 @@ export function ProjectNew2(props: {
           </div>
 
           <InputField id="project_name" placeholder="Name" focus={true} type="singleline"
-            rows={1} value={props.currentProject.name} setValue={setName} />
+            rows={1} value={props.currentProject.name} setValue={() => { }} />
 
           <InputField id="project_new_description" placeholder="Description"
             focus={false} type="multiline" rows={12}
-            value={props.currentProject?.description} setValue={setDescription} />
+            value={props.currentProject?.description} setValue={() => { }} />
 
           <InputField id="project_organs" placeholder="Organs" focus={false} type="singleline"
-            rows={1} value={props.currentProject?.organs} setValue={setOrgans} />
+            rows={1} value={props.currentProject?.organs.toString()} setValue={() => { }} />
+
+          <InputField id="project_disease" placeholder="Disease" focus={false} type="singleline"
+            rows={1} value={props.currentProject?.disease} setValue={() => { }} />
 
           <InputField id="project_team" placeholder="Team" focus={false} type="singleline"
             rows={1} value={team} setValue={setTeam}

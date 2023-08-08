@@ -119,14 +119,14 @@ export function Workbench(props: { path: string, user: User | undefined, auth: A
               <div class="regulatory_panel">
                 <div class="regulatory_docs_header_panel">
                   {/* @ts-ignore */}
-                  {Object.keys(exp?.docs).map((reg) => (
+                  {Object.keys(workbench?.docs).map((reg) => (
                     <InputButton text={reg} action={() => { setSelectedRegulatory(reg); setRegulatorySelectedDoc([reg, 0]); }} type={selectedRegulatory == reg ? "primary" : "secondary"}></InputButton>
                   ))}
                 </div>
                 <div class="regulatory_docs_panel">
                   <div class="regulatory_docs_menu_panel">
                     {/* @ts-ignore */}
-                    {exp?.docs[selectedRegulatory]?.map((doc: { name: string, content: string }, index: number) => (
+                    {workbench?.docs[selectedRegulatory]?.map((doc: { name: string, content: string }, index: number) => (
                       <div onClick={() => setRegulatorySelectedDoc([selectedRegulatory, index])} className={regulatorySelectedDoc[1] == index ? "regulatory_menu_panel_item experiment_menu_panel_item_selected" : "regulatory_menu_panel_item"}>
                         <img class="experiment_menu_panel_item_icon" src={docs} />
                         <span class="experiment_menu_panel_item_text">{doc.name}</span>
@@ -137,7 +137,7 @@ export function Workbench(props: { path: string, user: User | undefined, auth: A
                   <div class="regulatory_docs_editor_panel">
 
                     {/* @ts-ignore */}
-                    <div class="regulatory_docs_editor" dangerouslySetInnerHTML={{ __html: exp?.docs[regulatorySelectedDoc[0]][regulatorySelectedDoc[1]].content }}>
+                    <div class="regulatory_docs_editor" dangerouslySetInnerHTML={{ __html: workbench?.docs[regulatorySelectedDoc[0]][regulatorySelectedDoc[1]].content }}>
 
                     </div>
 

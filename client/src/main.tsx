@@ -23,6 +23,7 @@ import { Datasets } from './views/datasets/datasets';
 
 import { Workbenches } from './views/workbenches/workbenches';
 import { Workbench } from './views/workbench/workbench';
+import { NewWorkbench } from './views/workbench-new/workbench-new';
 
 import { AssistantChatHistory, WorkbenchDefinition, ProjectDefinition, DatasetDefinition } from './types';
 import { AssistantView } from './views/assistant/assistant';
@@ -31,7 +32,7 @@ function Main() {
 
   const [projects, setProjects] = useState<ProjectDefinition[]>([]);
   const [workbenches, setWorkbenches] = useState<WorkbenchDefinition[]>([]);
-  const [datasets, setDatasets] = useState<DatasetDefinition[]>([
+  const [datasets] = useState<DatasetDefinition[]>([
     {
       "id": "lung_ctscans_v3",
       "name": "Lung CT Scans version 3",
@@ -226,7 +227,7 @@ function Main() {
 
         <Workbenches path="/workbenches" user={currentUser} auth={auth} workbenches={workbenches} />
         <Workbench path="/workbenches/:id" id="" user={currentUser} auth={auth} getWorkbench={getWorkbench} />
-        {/* <NewExperiment path="/new-experiment" user={currentUser} auth={auth} addExperiment={addExperiment} /> */}
+        <NewWorkbench path="/new-workbench" user={currentUser} auth={auth} addExperiment={addWorkbench} />
 
         <Datasets path="/datasets" user={currentUser} auth={auth} datasets={datasets} />
 

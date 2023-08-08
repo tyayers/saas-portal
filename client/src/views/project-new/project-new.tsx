@@ -2,10 +2,8 @@ import { Header } from "../../components/header/header"
 import { MainMenu, MainMenuItem } from "../../components/main-menu/main-menu";
 import { InputField } from "../../components/input-field/input-field";
 import { InputButton } from "../../components/input-button/input-button";
-import { InputSelect } from "../../components/input-select/input-select";
 import box from "../../assets/box.svg";
 import flask from "../../assets/flask.svg";
-import sparkle from "../../assets/sparkle.gif";
 import sparkle_thinking from "../../assets/sparkle_thinking.gif";
 import wand from "../../assets/wand.svg";
 import { useState } from 'preact/hooks';
@@ -13,7 +11,7 @@ import { User, Auth } from "firebase/auth";
 
 import "./project-new.css"
 import { route } from "preact-router";
-import { ExperimentDefinition, ProjectDefinition } from "../../types";
+import { ProjectDefinition } from "../../types";
 
 export function ProjectNew(props: {
   path: string; user: User | undefined; auth: Auth;
@@ -22,16 +20,10 @@ export function ProjectNew(props: {
   setCurrentProject: (project: ProjectDefinition) => void;
 }) {
 
-  const [name, setName] = useState("");
   const [originalDescription, setOriginalDescription] = useState("");
   const [description, setDescription] = useState("");
   const [descriptionHelpText, setDescriptionHelpText] = useState("First, type a simple description of your project. Click AI Assist for a generated description from your initial input.");
-  const [genDescription, setGenDescription] = useState("");
-  const [displayGenDescription, setDisplayGenDescription] = useState(false);
   const [genProcessing, setGenProcessing] = useState(false);
-  const [location, setLocation] = useState("global");
-  const [region, setRegion] = useState("europe-west4");
-  const [size, setSize] = useState("xs");
 
   if (props.currentProject) {
     setDescription(props.currentProject.description);
@@ -51,6 +43,9 @@ export function ProjectNew(props: {
     else {
       searchText = originalDescription;
     }
+
+    // Send wait event to display progress bar
+    document.dispatchEvent(new Event("showWait"));
 
     setGenProcessing(true);
     fetch(import.meta.env.VITE_SERVICE_URL + "/assistant/prompt", {
@@ -72,6 +67,9 @@ export function ProjectNew(props: {
         setDescription(data.answer);
         setDescriptionHelpText("You can click AI Remix again for another try, change the description manually, or press submit to continue.");
         setGenProcessing(false);
+        // Send wait event to display progress bar
+        document.dispatchEvent(new Event("hideWait"));
+
         // setDisplayGenDescription(true);
         //document.getElementById("project_new_generated_text").innerText = data.answer
         //setGenDescription(data.answer);
@@ -100,11 +98,12 @@ export function ProjectNew(props: {
         .then((response) => {
           return response.json();
         })
-        .then((data: { description: string, entities: [{ name: string, type: number, salience: number, isHumanOrgan: string }] }) => {
+        .then((data: { description: string, entities: [{ name: string, type: number, salience: number, isHumanOrgan: string, isDisease: string }] }) => {
 
           let generatedTitle: string = "";
           let organs: string[] = [];
           let usedWords: string[] = [];
+          let disease: string = "";
 
           for (var i = 0; i < data.entities.length; i++) {
             let newWord = data.entities[i].name.toLowerCase();
@@ -129,6 +128,10 @@ export function ProjectNew(props: {
             if (data.entities[i].isHumanOrgan === "true") {
               organs.push(newWord[0].toUpperCase() + newWord.slice(1).toLowerCase())
             };
+
+            if (data.entities[i].isDisease === "true") {
+              disease = newWord[0].toUpperCase() + newWord.slice(1).toLowerCase()
+            };
           }
 
           let newProject = props.currentProject;
@@ -139,7 +142,23 @@ export function ProjectNew(props: {
               description: "",
               status: "Initializing",
               team: "",
-              organs: organs
+              organs: organs,
+              disease: disease,
+              docs: [
+                {
+                  name: "Software Development Plan",
+                  content: ""
+                }, {
+                  name: "Software Architecture Document",
+                  content: ""
+                }, {
+                  name: "Software Requirements Document",
+                  content: ""
+                }, {
+                  name: "Software Verification Plan",
+                  content: ""
+                }
+              ]
             }
           }
 
