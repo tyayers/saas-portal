@@ -384,7 +384,7 @@ class docs_manager:
 
     def generateSoftwareDevelopmentPlan(self, name, organ, disease):
         result = """
-        <table>
+        <table class="reg_doc_table">
           <tr>
             <td>Project: </td>
             <td>{name}</td>
@@ -406,27 +406,119 @@ class docs_manager:
             <td>Chief Engineer/Technical Lead</td>
           </tr>
         </table>
-        <h1>Introduction</h1>
-        <h2>Purpose</h2>
-        <div>
+        <h1>1 Introduction</h1>
+        <h2>1.1 Purpose</h2>
+        <div class="reg_doc_paragraph">
           The purpose of this document is to establish a medical device Software Development Plan (SwDP) for conducting the activities appropriate to the scope, magnitude, and software safety classification for the project.
           Software safety classification shall be used to determine the software lifecycle activities to be applied for software development Note 1.
           Note 1 - If the activity is required only for class B or C it will be clearly identified in the section title, otherwise the activity is required for all classes (A, B, C).
         </div>
-        <h1>Software Development Scope and Description</h1>
+        <h2>1.2 Responsibility</h2>
+        <div class="reg_doc_paragraph">
+          The Software Lead for the project is responsible for this SwDP. 
+          The Software Quality Management for the project is responsible of ensuring that Software Milestone Review being planned and conducted (section of Software Milestone Review Strategy). 
+          Individual software engineers are responsible for adhering to this plan in the development of medical device software.
+          The intended audiences of this document are the Device Development Team (DDT) team.
+          This document shall be updated as development proceeds as appropriate.
+        </div>
+        <h2>1.3 Reference Document</h2>
+        <div class="reg_doc_paragraph">
+          No documents are referenced in this document.
+        </div>
+        <h2>1.4 Glossery and Definitions</h2>
+        <div class="reg_doc_paragraph">
+          No definitions have been added to this document.
+        </div>
+        <h1>2 Software Development Scope and Description</h1>
         <div>
-        {scope}
+          {scope}
+        </div>
+        <h1>3 Software Development Standards, Methods and Tools [C]</h1>
+        <div>
+          {standards}
+        </div>
+        <h1>4 Software Development Life Cycle</h1>
+        <div>
+          {lifecycle}
+          <h2>4.1 Informed Third Parties</h2>
+          <div class="reg_doc_paragraph">
+            Certain partners (e.g. OEMs) require early notification of upcoming software releases so that their internal release documentation can be updated to include the expected Product Software Version. Such partners may want to evaluate if the new software requires additional validation on their side or not.
+            When informing third parties, a memo that explains the release changes, planned testing strategy, and our recommendation if additional testing is required should be devised and provided.
+            The following notifications (third party and assigned internal lead) is required for this product:
+
+            No third parties are involved in this product.
+          </div>
+        </div>
+        <h1>5 Software Risk Management Planning</h1>
+        <div>
+          {riskplanning}
+        </div>
+        <h1>6 Software Integration Plan [B, C]</h1>
+        <div>
+          {integrationplan}
+        </div>
+        <h1>7 Software Compatibility Plan</h1>
+        <div>
+          {compatibilityplan}
         </div>
         """
-        scope_prompt = "Generate a paragraph for a Software Development Plan for the FDA for a software product that helps diagnose {disease}. The paragraph should contain the Software Development Scope and Description and provide a comprehensive overview of the device features that are controlled by software. Highlight major or operationally significant software features.".format(
+        prompt = "Generate a paragraph for a Software Development Plan for the FDA for a software product that helps diagnose {disease}. The paragraph should contain the Software Development Scope and Description and provide a comprehensive overview of the device features that are controlled by software. Highlight major or operationally significant software features.".format(
             disease=disease
         )
 
         generatedScope = predict_large_language_model(
-            prompt_model, 0.2, 1024, 0.8, 40, scope_prompt
+            prompt_model, 0.2, 1024, 0.8, 40, prompt
         )
 
-        return result.format(name=name, scope=generatedScope)
+        prompt = "Generate a paragraph for a Software Development Plan for the FDA for a software product that helps diagnose {disease}. The paragraph should contain the Software Development Standards, Methods and Tools and include or reference technical standards, methods, and tools associated with the development of software items of class C if applicable. Use the following format: 'Technical Standards: Methods: Tools:'".format(
+            disease=disease
+        )
+
+        generatedStandards = predict_large_language_model(
+            prompt_model, 0.2, 1024, 0.8, 40, prompt
+        )
+
+        prompt = "Generate a paragraph for a Software Development Plan for the FDA for a software product that helps diagnose {disease}. The paragraph should contain the Software Development Life Cycle.".format(
+            disease=disease
+        )
+
+        generatedLifecycle = predict_large_language_model(
+            prompt_model, 0.2, 1024, 0.8, 40, prompt
+        )
+
+        prompt = "Generate a paragraph for a Software Development Plan for the FDA for a software product that helps diagnose {disease}. The paragraph should contain the Software Risk Management Planning. Include or reference software risk management plan to address a) the scope of the planned risk management activities, b) assignment of responsibilities and authorities, c) requirements for review of risk management activities, d) criteria for risk acceptability, e) verification activities, and f) activities related to collection and review of relevant production and post-production information. Include the management of risks relating to SOUP. Software safety classification is documented in Software Risk Analysis document.".format(
+            disease=disease
+        )
+
+        generatedRiskPlanning = predict_large_language_model(
+            prompt_model, 0.2, 1024, 0.8, 40, prompt
+        )
+
+        prompt = "Generate a paragraph for a Software Development Plan for the FDA for a software product that helps diagnose {disease}. The paragraph should contain the Software Integration Plan. Describe a plan to integrate the software units into software items (include SOUP) and/or software system. Software integration plan is used to assist integration testing. The approach to integration can range from non-incremental integration to any form of incremental integration.".format(
+            disease=disease
+        )
+
+        generatedIntegrationPlan = predict_large_language_model(
+            prompt_model, 0.2, 1024, 0.8, 40, prompt
+        )
+
+        prompt = "Generate a paragraph for a Software Development Plan for the FDA for a software product that helps diagnose {disease}. The paragraph should contain a Software Compatibility Plan that defines the strategy and plan for ensuring that software compatibility with fielded software/hardware components are in accordance with the overall compatibility strategy (refer to the DnDP for overall strategy). The Software Compatibility Plan is also used to plan for backward compatibility (including interoperability, hardware interfaces, upgradeability, etc.) with fielded software/hardware versions to ensure the released Software works seamlessly.".format(
+            disease=disease
+        )
+
+        generatedCompatibilityPlan = predict_large_language_model(
+            prompt_model, 0.2, 1024, 0.8, 40, prompt
+        )
+
+        return result.format(
+            name=name,
+            scope=generatedScope,
+            standards=generatedStandards,
+            lifecycle=generatedLifecycle,
+            riskplanning=generatedRiskPlanning,
+            integrationplan=generatedIntegrationPlan,
+            compatibilityplan=generatedCompatibilityPlan,
+        )
 
 
 def predict_large_language_model(
