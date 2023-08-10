@@ -1,3 +1,10 @@
+.project_delete_button {
+  position: absolute;
+  top: 5px;
+  right: 25px;
+  /* opacity: .7; */
+}
+
 .project_popup {
   position: fixed;
   height: 100vh;
@@ -20,12 +27,34 @@
   background: white;
   margin: auto;
   border: 1px #eee solid;
-  border-radius: 14px;
+  border-radius: 24px;
   font-size: 14px;
-  padding: 24px;
+  padding: 28px;
   overflow-y: auto;
 }
 
 .project_popup_doc h1 {
   font-size: 24px;
+}
+
+.reg_doc_table {
+  border: 1px solid;
+  margin-bottom: 44px;
+}
+
+.reg_doc_table tr {
+  border: 1px solid;
+}
+
+.reg_doc_table td {
+  padding: 6px;
+  border: 1px solid;
+}
+
+.reg_doc_title {
+  font-size: 24px;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 32px;
+  font-weight: bold;
 }

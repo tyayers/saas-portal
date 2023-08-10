@@ -90,6 +90,10 @@ function Main() {
     topbar.hide();
   });
 
+  document.addEventListener("reloadData", () => {
+    loadData();
+  });
+
   useEffect(() => {
 
     onAuthStateChanged(auth, (user) => {
@@ -131,6 +135,10 @@ function Main() {
       }
     });
 
+    loadData()
+  }, []);
+
+  function loadData() {
     fetch(import.meta.env.VITE_SERVICE_URL + "/data/experiments", {
       method: "GET",
       headers: {
@@ -156,7 +164,7 @@ function Main() {
       .then((data: { projects: ProjectDefinition[] }) => {
         setProjects(data.projects);
       });
-  }, []);
+  }
 
   function getWorkbench(id: string): WorkbenchDefinition | undefined {
     var result = undefined;

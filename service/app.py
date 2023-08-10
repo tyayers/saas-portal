@@ -147,7 +147,7 @@ class language_manager:
         response = model.predict(
             "answer the following question with either true or false. Is"
             + term
-            + " a disease that humans get?",
+            + " a disease or condition that humans can get?",
             **parameters
         )
 
@@ -279,6 +279,11 @@ class redirect_manager:
 class data_manager:
     db = firestore.client()
 
+    def OPTIONS(self, id):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header("Access-Control-Allow-Methods", "*")
+        return "200 OK"
+
     def GET(self, id):
         new_result = {}
 
@@ -339,15 +344,16 @@ class data_manager:
         web.header("Content-Type", "application/json")
         return json.dumps(data)
 
-    # Delets a note
     def DELETE(self, id):
         pieces = id.split("/")
         while "" in pieces:
             pieces.remove("")
 
         if len(pieces) > 1:
-            self.db.collection("notes").document(pieces[1]).delete()
+            self.db.collection(pieces[0]).document(pieces[1]).delete()
 
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header("Access-Control-Allow-Methods", "*")
         return "200 OK"
 
 
@@ -364,7 +370,10 @@ class docs_manager:
         # data = self.db.collection("projects").document(pieces[0]).get()
 
         generatedDevPlanDoc = self.generateSoftwareDevelopmentPlan(
-            data["name"], data["organs"][0], data["disease"]
+            data["name"],
+            "Software Development Plan",
+            data["organs"][0],
+            data["disease"],
         )
 
         data["docs"] = [
@@ -382,8 +391,9 @@ class docs_manager:
         web.header("Content-Type", "application/json")
         return json.dumps(data)
 
-    def generateSoftwareDevelopmentPlan(self, name, organ, disease):
+    def generateSoftwareDevelopmentPlan(self, name, docName, organ, disease):
         result = """
+        <div class="reg_doc_title">{docname}</div>
         <table class="reg_doc_table">
           <tr>
             <td>Project: </td>
@@ -512,6 +522,7 @@ class docs_manager:
 
         return result.format(
             name=name,
+            docname=docName,
             scope=generatedScope,
             standards=generatedStandards,
             lifecycle=generatedLifecycle,
@@ -538,7 +549,7 @@ def predict_large_language_model(
     model = TextGenerationModel.from_pretrained(model_name)
     response = model.predict(question, **parameters)
 
-    return response.text
+    return response.text.replace("\n", "<br/>")
 
 
 if __name__ == "__main__":

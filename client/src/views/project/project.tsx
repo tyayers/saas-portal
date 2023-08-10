@@ -1,5 +1,6 @@
 import { Header } from "../../components/header/header"
 import { MainMenu, MainMenuItem } from '../../components/main-menu/main-menu';
+import { InputButton } from "../../components/input-button/input-button";
 
 import box from "../../assets/box.svg";
 import flask from "../../assets/flask.svg";
@@ -10,6 +11,7 @@ import { ProjectDefinition } from "../../types";
 import { useEffect, useState } from "preact/hooks";
 
 import "./project.css";
+import { route } from "preact-router";
 
 export function Project(props: { id: string; getProject: (id: string) => ProjectDefinition | undefined; path: string, user: User | undefined, auth: Auth }) {
 
@@ -28,6 +30,15 @@ export function Project(props: { id: string; getProject: (id: string) => Project
     }
   })
 
+  function deleteProject() {
+    fetch(import.meta.env.VITE_SERVICE_URL + "/data/projects/" + props.id, {
+      method: "DELETE"
+    }).then(() => {
+      document.dispatchEvent(new Event("reloadData"));
+      route("/home");
+    });
+  }
+
   return (
     <>
       <Header user={props.user} auth={props.auth} showSearch={true} />
@@ -41,8 +52,12 @@ export function Project(props: { id: string; getProject: (id: string) => Project
 
       <div class="standard_main_panel">
         <div class="standard_main_panel_header">
-          {project?.name}
+          {project?.name} <span class="project_delete_button"><InputButton type="secondary" text="Delete" action={deleteProject}></InputButton></span>
         </div>
+
+        <div>
+        </div>
+
         <h3>Overview</h3>
         <span class="standard_main_paragraph"><b>Description: </b><span>{project?.description}</span></span>
         {project?.organs &&
@@ -85,7 +100,7 @@ export function Project(props: { id: string; getProject: (id: string) => Project
 
       {docVisible &&
         <div class="project_popup" onClick={() => { setDocVisible(false); }}>
-          <div class="project_popup_doc" dangerouslySetInnerHTML={{ __html: docContent }} onClick={(e) => { e.stopPropagation(); }}>
+          <div class="project_popup_doc" contentEditable={true} dangerouslySetInnerHTML={{ __html: docContent }} onClick={(e) => { e.stopPropagation(); }}>
 
           </div>
         </div>
