@@ -254,22 +254,6 @@ class langchain_manager:
 
         return json.dumps({"question": question, "answer": response})
 
-        # messages = [
-        #     SystemMessage(
-        #         content="You are a helpful assistant for healthcare and data science related questions."
-        #     ),
-        #     HumanMessage(
-        #         content=question
-        #     ),
-        # ]
-
-        # response = chat(messages)
-
-        # web.header("Access-Control-Allow-Origin", "*")
-        # web.header("Content-Type", "application/json")
-
-        # return json.dumps({"question": question, "answer": response.content})
-
 
 class redirect_manager:
     def GET(self):
