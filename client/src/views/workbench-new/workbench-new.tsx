@@ -37,7 +37,8 @@ export function NewWorkbench(props: { path: string; user: User | undefined; auth
       body: JSON.stringify(exp),
       method: "POST",
       headers: {
-        Accept: "application/json"
+        "Accept": "application/json",
+        "Content-Type": "application/json"
       },
     })
       .then((response) => {
@@ -48,7 +49,7 @@ export function NewWorkbench(props: { path: string; user: User | undefined; auth
         console.log(data);
 
         props.addExperiment(data);
-        route("/experiments");
+        route("/workbenches");
       });
   }
 
@@ -68,7 +69,7 @@ export function NewWorkbench(props: { path: string; user: User | undefined; auth
         <div class="experiment_new_main_panel_content">
 
           <div class="main_panel_header">
-            New Experiment
+            New Workbench
           </div>
           <InputField id="experiment_name" placeholder="Name" focus={true} type="singleline" rows={1} value={name} setValue={setName} />
           <InputField id="experiment_description" placeholder="Description" focus={false} type="multiline" rows={4} value={description} setValue={setDescription} />

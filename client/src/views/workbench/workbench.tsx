@@ -61,10 +61,10 @@ export function Workbench(props: { path: string, user: User | undefined, auth: A
               <img class="experiment_menu_panel_item_icon" src={medical_image} />
               <span class="experiment_menu_panel_item_text">Upload Test Images</span>
             </div>
-            <div onClick={() => setSelectedFeature("regulatory_docs")} className={selectedFeature == "regulatory_docs" ? "experiment_menu_panel_item experiment_menu_panel_item_selected" : "experiment_menu_panel_item"}>
+            {/* <div onClick={() => setSelectedFeature("regulatory_docs")} className={selectedFeature == "regulatory_docs" ? "experiment_menu_panel_item experiment_menu_panel_item_selected" : "experiment_menu_panel_item"}>
               <img class="experiment_menu_panel_item_icon" src={docs} />
               <span class="experiment_menu_panel_item_text">Regulatory Submission Docs</span>
-            </div>
+            </div> */}
           </div>
           <div class="experiment_detail_panel">
             {selectedFeature == "runs" &&

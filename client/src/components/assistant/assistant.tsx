@@ -29,7 +29,8 @@ export function Assistant(props: { onQuestion: (question: string) => void, onAns
         }),
         method: "POST",
         headers: {
-          Accept: "application/json"
+          "Accept": "application/json",
+          "Content-Type": "application/json"
         },
       })
         .then((response) => {

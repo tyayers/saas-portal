@@ -6,3 +6,5 @@ firebase-admin
 google-cloud-aiplatform
 google-cloud-language
 langchain
+chromadb
+pysqlite3-binary

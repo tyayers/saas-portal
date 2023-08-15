@@ -5,6 +5,7 @@ import { InputButton } from "../../components/input-button/input-button";
 import box from "../../assets/box.svg";
 import flask from "../../assets/flask.svg";
 import wand from "../../assets/wand.svg";
+import data from "../../assets/data.svg";
 import { useState } from 'preact/hooks';
 import { User, Auth } from "firebase/auth";
 
@@ -52,7 +53,8 @@ export function ProjectNew2(props: {
         body: JSON.stringify(props.currentProject),
         method: "POST",
         headers: {
-          Accept: "application/json"
+          "Accept": "application/json",
+          "Content-Type": "application/json"
         },
       })
         .then((response) => {
@@ -69,7 +71,8 @@ export function ProjectNew2(props: {
             body: JSON.stringify(data),
             method: "POST",
             headers: {
-              Accept: "application/json"
+              "Accept": "application/json",
+              "Content-Type": "application/json"
             },
           });
 
@@ -85,6 +88,7 @@ export function ProjectNew2(props: {
       <MainMenu>
         <MainMenuItem item={{ id: "environments", text: "My Projects", icon: box, route: "/home", selected: true }} />
         <MainMenuItem item={{ id: "experiments", text: "My Workbenches", icon: flask, route: "/experiments", selected: false }} />
+        <MainMenuItem item={{ id: "datasets", text: "Datasets", icon: data, route: "/datasets", selected: false }} />
         <MainMenuItem item={{ id: "assistant", text: "AI Assistant", icon: wand, route: "/assistant", selected: false }} />
       </MainMenu>
 

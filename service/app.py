@@ -26,6 +26,16 @@ from langchain.schema import HumanMessage, SystemMessage
 from langchain.llms import VertexAI
 from langchain import PromptTemplate, LLMChain
 from langchain.chains import SimpleSequentialChain
+from langchain.chains.router import MultiPromptChain
+from langchain.chains import ConversationChain
+from langchain.chains.router.embedding_router import EmbeddingRouterChain
+from langchain.embeddings import VertexAIEmbeddings
+from langchain.vectorstores import Chroma
+
+__import__("pysqlite3")
+import sys
+
+sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 
 chat = ChatVertexAI()
 vertexai.init(
@@ -230,24 +240,84 @@ class langchain_manager:
 
         print("Calling vertex LLM model with question: " + question)
 
-        template = """Question: {question}
-
-        Answer: Let's think step by step."""
-
-        prompt = PromptTemplate(template=template, input_variables=["question"])
         llm = VertexAI()
-        llm_chain = LLMChain(prompt=prompt, llm=llm)
-
         med_llm = VertexAI(model_name="medpalm2@experimental")
-        med_llm_chain = LLMChain(prompt=prompt, llm=med_llm)
 
-        overall_chain = SimpleSequentialChain(
-            chains=[llm_chain, med_llm_chain], verbose=True
+        medicine_template = """You are a very smart doctor. \
+        You are great at answering questions about medicine in a concise and easy to understand manner. \
+        When you don't know the answer to a question you admit that you don't know.
+
+        Here is a question:
+        {question}"""
+
+        general_template = """You are a very smart data scientist. \
+        You are great at answering questions about data science and general topics in a concise and easy to understand manner. \
+        When you don't know the answer to a question you admit that you don't know.
+
+        Here is a question:
+        {question}"""
+
+        prompt_infos = [
+            {
+                "name": "medicine",
+                "description": "Good for answering questions about medicine",
+                "prompt_template": medicine_template,
+                "llm": med_llm,
+            },
+            {
+                "name": "general",
+                "description": "Good for answering questions about data science and general topics",
+                "prompt_template": general_template,
+                "llm": llm,
+            },
+        ]
+
+        names_and_descriptions = [
+            ("medicine", ["for questions about medicine"]),
+            ("general", ["for questions about data science and general topics"]),
+        ]
+
+        destination_chains = {}
+        for p_info in prompt_infos:
+            name = p_info["name"]
+            prompt_template = p_info["prompt_template"]
+            prompt = PromptTemplate(
+                template=prompt_template, input_variables=["question"]
+            )
+            chain = LLMChain(llm=p_info["llm"], prompt=prompt)
+            destination_chains[name] = chain
+
+        default_chain = ConversationChain(llm=llm, output_key="answer")
+
+        router_chain = EmbeddingRouterChain.from_names_and_descriptions(
+            names_and_descriptions,
+            Chroma,
+            VertexAIEmbeddings(),
+            routing_keys=["question"],
         )
 
-        response = overall_chain.run(question)
+        chain = MultiPromptChain(
+            router_chain=router_chain,
+            destination_chains=destination_chains,
+            default_chain=default_chain,
+            verbose=True,
+        )
 
-        # response = llm_chain.run(question)
+        response = chain.run(question)
+
+        # prompt = PromptTemplate(template=template, input_variables=["question"])
+
+        # llm = VertexAI()
+        # llm_chain = LLMChain(prompt=prompt, llm=llm)
+
+        # med_llm = VertexAI(model_name="medpalm2@experimental")
+        # med_llm_chain = LLMChain(prompt=prompt, llm=med_llm)
+
+        # overall_chain = SimpleSequentialChain(
+        #     chains=[llm_chain, med_llm_chain], verbose=True
+        # )
+
+        # response = overall_chain.run(question)
 
         web.header("Access-Control-Allow-Origin", "*")
         web.header("Content-Type", "application/json")
