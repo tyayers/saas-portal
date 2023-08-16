@@ -44,8 +44,8 @@ function Main() {
   ]);
 
   var config = {
-    apiKey: "AIzaSyDWh5sExqNSMsT8Jj6-0q01j6KWL_UmX48",
-    authDomain: "cloud32x.firebaseapp.com",
+    apiKey: "import.meta.env.VITE_FIREBASE_KEY",
+    authDomain: "import.meta.env.VITE_FIREBASE_DOMAIN",
   };
 
   // Initialize Firebase
@@ -53,7 +53,6 @@ function Main() {
 
   // Initialize Firebase Authentication and get a reference to the service
   const auth = getAuth(app);
-  // var currentUser: Signal<User | undefined> = signal(undefined);
   const [currentUser, setUser] = useState<User | undefined>();
   const [currentProject, setCurrentProject] = useState<ProjectDefinition | undefined>();
 

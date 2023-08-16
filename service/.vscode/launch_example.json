@@ -1,7 +1,4 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
@@ -12,12 +9,10 @@
       "console": "integratedTerminal",
       "justMyCode": true,
       "env": {
-        "GCLOUD_PROJECT": "cloud32x",
-        "CHAT_MODEL": "chat-bison",
-        "PROMPT_MODEL": "text-bison@001",
-        "ASSISTANT_MODEL_REGION": "us-central1",
+        "GOOGLE_APPLICATION_CREDENTIALS": "YOUR_KEY_IF_NOT_DEFAULT_CREDENTIALS",
+        "GCLOUD_PROJECT": "YOUR_PROJECT",
+        "VERTEX_REGION": "us-central1",
         "ASSISTANT_CONTEXT": "",
-        // "ASSISTANT_CONTEXT": "You are an assistant to a medical data scientist helping to develop machine learning models to better diagnose diseases such as liver or lung cancer.",
         "ASSISTANT_EXAMPLE_QUESTION1": "what is the best AI model approach for recognizing liver lesions?",
         "ASSISTANT_EXAMPLE_ANSWER1": "AI can also be used to predict complications of liver cirrhosis. Marozas et al. used US elastography and blood tests as training data for AI models and discriminated cases with pressure differences between the portal vein and hepatic vein."
       }

@@ -23,7 +23,7 @@ export function Assistant(props: { onQuestion: (question: string) => void, onAns
 
       props.onQuestion(input);
 
-      fetch(import.meta.env.VITE_SERVICE_URL + "/assistant/chat", {
+      fetch(import.meta.env.VITE_SERVICE_URL + "/assistant/langchain", {
         body: JSON.stringify({
           "question": input
         }),

@@ -40,7 +40,7 @@ sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 chat = ChatVertexAI()
 vertexai.init(
     project=os.environ.get("GCLOUD_PROJECT"),
-    location=os.environ.get("ASSISTANT_MODEL_REGION"),
+    location=os.environ.get("VERTEX_REGION"),
 )
 
 language_client = language_v1.LanguageServiceClient()
@@ -74,6 +74,16 @@ if not firebase_admin._apps:
     )
 
 prompt_model = os.environ.get("PROMPT_MODEL")
+if not prompt_model:
+    prompt_model = "text-bison"
+
+prompt_model_medical = os.environ.get("PROMPT_MODEL_MEDICAL")
+if not prompt_model_medical:
+    prompt_model_medical = "text-bison"
+
+chat_model = os.environ.get("CHAT_MODEL")
+if not prompt_model:
+    prompt_model = "chat-bison"
 
 
 class language_manager:
@@ -168,7 +178,7 @@ class prompt_manager:
     def POST(self):
         inputData = {}
         question = ""
-        model = os.environ.get("PROMPT_MODEL")
+        model = prompt_model
         if web.data():
             print("have web data")
             inputData = json.loads(web.data())
@@ -190,7 +200,7 @@ class chat_manager:
     def POST(self):
         inputData = {}
         question = ""
-        model = "chat-bison"  # os.environ.get("ASSISTANT_MODEL")
+        model = chat_model
         if web.data():
             print("have web data")
             inputData = json.loads(web.data())
@@ -230,6 +240,12 @@ class chat_manager:
 
 
 class langchain_manager:
+    def OPTIONS(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header("Access-Control-Allow-Methods", "*")
+        web.header("Access-Control-Allow-Headers", "*")
+        return "200 OK"
+
     def POST(self):
         inputData = {}
         question = ""
@@ -240,8 +256,8 @@ class langchain_manager:
 
         print("Calling vertex LLM model with question: " + question)
 
-        llm = VertexAI()
-        med_llm = VertexAI(model_name="medpalm2@experimental")
+        llm = VertexAI(model_name=prompt_model)
+        med_llm = VertexAI(model_name=prompt_model_medical)
 
         medicine_template = """You are a very smart doctor. \
         You are great at answering questions about medicine in a concise and easy to understand manner. \
@@ -336,6 +352,7 @@ class data_manager:
     def OPTIONS(self, id):
         web.header("Access-Control-Allow-Origin", "*")
         web.header("Access-Control-Allow-Methods", "*")
+        web.header("Access-Control-Allow-Headers", "*")
         return "200 OK"
 
     def GET(self, id):
@@ -374,8 +391,6 @@ class data_manager:
         logging.info(json.dumps(data))
 
         self.db.collection(pieces[0]).document(data["id"]).set(data)
-
-        pprint.pprint(data)
 
         web.header("Access-Control-Allow-Origin", "*")
         web.header("Content-Type", "application/json")
