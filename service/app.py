@@ -221,17 +221,17 @@ class chat_manager:
         chat_model = ChatModel.from_pretrained(model_name)
         parameters = {
             "temperature": 0.2,
-            "max_output_tokens": 256,
+            "max_output_tokens": 512,
             "top_p": 0.8,
             "top_k": 40,
         }
 
         chat = chat_model.start_chat(
-            context=os.environ.get("ASSISTANT_CONTEXT"),
+            context="You are a smart doctor who can answer patient's questions on different healthcare and medical topics.",
             examples=[
                 InputOutputTextPair(
-                    input_text=os.environ.get("ASSISTANT_EXAMPLE_QUESTION1"),
-                    output_text=os.environ.get("ASSISTANT_EXAMPLE_ANSWER1"),
+                    input_text="What is the best AI model approach for recognizing liver lesions?",
+                    output_text="AI can also be used to predict complications of liver cirrhosis. Marozas et al. used US elastography and blood tests as training data for AI models and discriminated cases with pressure differences between the portal vein and hepatic vein.",
                 )
             ],
         )
@@ -256,8 +256,8 @@ class langchain_manager:
 
         print("Calling vertex LLM model with question: " + question)
 
-        llm = VertexAI(model_name=prompt_model)
-        med_llm = VertexAI(model_name=prompt_model_medical)
+        llm = VertexAI(model_name=prompt_model, max_output_tokens=512)
+        med_llm = VertexAI(model_name=prompt_model_medical, max_output_tokens=512)
 
         medicine_template = """You are a very smart doctor. \
         You are great at answering questions about medicine in a concise and easy to understand manner. \

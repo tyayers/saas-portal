@@ -28,6 +28,9 @@ import { NewWorkbench } from './views/workbench-new/workbench-new';
 import { AssistantChatHistory, WorkbenchDefinition, ProjectDefinition, DatasetDefinition } from './types';
 import { AssistantView } from './views/assistant/assistant';
 
+const firebaseKey = import.meta.env.VITE_FIREBASE_KEY;
+const firebaseAuthDomain = import.meta.env.VITE_FIREBASE_DOMAIN;
+
 function Main() {
 
   const [projects, setProjects] = useState<ProjectDefinition[]>([]);
@@ -44,8 +47,8 @@ function Main() {
   ]);
 
   var config = {
-    apiKey: "import.meta.env.VITE_FIREBASE_KEY",
-    authDomain: "import.meta.env.VITE_FIREBASE_DOMAIN",
+    apiKey: firebaseKey,
+    authDomain: firebaseAuthDomain,
   };
 
   // Initialize Firebase
