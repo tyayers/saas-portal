@@ -232,7 +232,6 @@ function Main() {
 
         <Projects path="/home" user={currentUser} auth={auth} projects={projects} />
         <ProjectNew path="/new-project" user={currentUser} auth={auth} addProject={addProject} currentProject={currentProject} setCurrentProject={setProject} />
-        <ProjectNew2 path="/new-project-details" user={currentUser} auth={auth} addProject={addProject} currentProject={currentProject} />
         <Project path="/projects/:id" id="" getProject={getProject} user={currentUser} auth={auth} />
 
         <Workbenches path="/workbenches" user={currentUser} auth={auth} workbenches={workbenches} />

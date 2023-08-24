@@ -2,11 +2,13 @@ export interface ProjectDefinition {
   id: string;
   name: string;
   description: string;
-  organs: string[];
+  organ: string;
   disease: string;
   team: string;
   status: string;
-  docs: { name: string; content: string }[];
+  code?: { name: string; type: string; code: string }[];
+  milestones?: { name: string; date: string }[];
+  docs?: { name: string; content: string }[];
 }
 
 export interface WorkbenchDefinition {

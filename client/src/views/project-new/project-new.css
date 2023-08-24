@@ -9,14 +9,22 @@
 
 }
 
+.project_new_main_panel_outer {
+  position: absolute;
+  top: 0px;
+  bottom: 60px;
+  width: 100%;
+  overflow-y: auto;
+}
+
 .project_new_main_panel_content {
   /* width: calc(100% - 28px); */
   width: 404px;
   padding: 14px;
   position: absolute;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   top: 0px;
-  bottom: 60px;
+  /* bottom: 60px; */
 }
 
 .project_new_generated_button {

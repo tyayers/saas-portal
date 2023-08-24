@@ -70,32 +70,73 @@ export function Project(props: { id: string; getProject: (id: string) => Project
           <span class="standard_main_paragraph"><b>Team: </b>{project?.team}</span>
         }
 
-        <h3>Regulatory Documentation</h3>
-
-        <table class="standard_main_table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Status</th>
-              <th>Last Updated</th>
-            </tr>
-          </thead>
-          <tbody>
-            {project?.docs && project.docs.map((doc: { name: string, content: string }) => (
-              <tr onClick={() => { if (doc.content) { setDocContent(doc.content); setDocVisible(true); } }}>
-                <td>{doc.name}</td>
-                {doc.content ?
-                  <td>Generated</td>
-                  :
-                  <td>Generating...</td>
-                }
-                <td>April 23rd, 2023</td>
+        <div>
+          <h3>Code</h3>
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
               </tr>
-            ))
-            }
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {project?.code && project.code.map((c) => (
+                <tr onClick={() => { }}>
+                  <td>{c.name}</td>
+                  <td>{c.type}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
+        <div>
+          <h3>Milestones</h3>
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {project?.milestones && project.milestones.map((c) => (
+                <tr onClick={() => { }}>
+                  <td>{c.name}</td>
+                  <td>{c.date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <h3>Regulatory Documentation</h3>
+
+          <table class="standard_main_table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Last Updated</th>
+              </tr>
+            </thead>
+            <tbody>
+              {project?.docs && project.docs.map((doc: { name: string, content: string }) => (
+                <tr onClick={() => { if (doc.content) { setDocContent(doc.content); setDocVisible(true); } }}>
+                  <td>{doc.name}</td>
+                  {doc.content ?
+                    <td>Generated</td>
+                    :
+                    <td>Generating...</td>
+                  }
+                  <td>April 23rd, 2023</td>
+                </tr>
+              ))
+              }
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {docVisible &&
