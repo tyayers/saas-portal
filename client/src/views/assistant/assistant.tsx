@@ -1,4 +1,4 @@
-import { useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import { Auth, User } from "firebase/auth";
 import { Header } from "../../components/header/header";
@@ -17,6 +17,7 @@ import { AssistantChatHistory, AssistantResult } from "../../types";
 export function AssistantView(props: { path: string, user: User | undefined, auth: Auth, chats: AssistantChatHistory | undefined, onChatUpdate: (chatHistory: AssistantChatHistory) => void }) {
 
   // const [chatHistory, setChatHistory] = useState(props.chats);
+  const [displayThinking, setDisplayThinking] = useState(false);
 
   useEffect(() => {
     // scroll message list to bottom
@@ -37,6 +38,7 @@ export function AssistantView(props: { path: string, user: User | undefined, aut
         date: ""
       });
 
+      setDisplayThinking(true);
       props.onChatUpdate(JSON.parse(JSON.stringify(props.chats)));
     }
   }
@@ -50,6 +52,8 @@ export function AssistantView(props: { path: string, user: User | undefined, aut
       });
 
       props.onChatUpdate(JSON.parse(JSON.stringify(props.chats)));
+
+      setDisplayThinking(false);
     }
   }
 
@@ -82,6 +86,12 @@ export function AssistantView(props: { path: string, user: User | undefined, aut
 
             </div>
           ))}
+          {displayThinking &&
+            <div class="assistant_thinking">
+              <img class="assistant_profile_pic" src={sparkle}></img>
+              <span class="assistant_thinking_text">Thinking...</span>
+            </div>
+          }
         </div>
         <div class="assistant_input_panel">
           <Assistant onQuestion={onAssistantQuestion} onAnswer={onAssistantAnswer} />

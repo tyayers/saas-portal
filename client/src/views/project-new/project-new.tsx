@@ -21,10 +21,17 @@ export function ProjectNew(props: {
   setCurrentProject: (project: ProjectDefinition) => void;
 }) {
 
-  const [originalDescription, setOriginalDescription] = useState("");
   const [description, setDescription] = useState("");
-  const [descriptionHelpText, setDescriptionHelpText] = useState("First, type a simple description of your project. Click AI Assist for a generated description from your initial input.");
-  const [genProcessing, setGenProcessing] = useState(false);
+  const [name, setName] = useState("");
+  const [organ, setOrgan] = useState("");
+  const [disease, setDisease] = useState("");
+  const [code, setCode] = useState<{ name: string, type: string, code: string }[]>([]);
+  const [milestones, setMilestones] = useState<{ name: string, date: string }[]>([]);
+  const [team, setTeam] = useState("");
+  const [duetMainThinking, setDuetMainThinking] = useState(false);
+  const [duetCodeThinking, setDuetCodeThinking] = useState(false);
+
+  const [selectedCode, setSelectedCode] = useState("");
 
   if (props.currentProject) {
     setDescription(props.currentProject.description);
@@ -32,28 +39,37 @@ export function ProjectNew(props: {
 
   function onDescriptionInput(newInput: string) {
     setDescription(newInput);
-  }
 
-  function onAIRemix() {
-    var searchText: string = "";
+    setDuetMainThinking(true);
+    setDuetCodeThinking(true);
 
-    if (originalDescription == "") {
-      setOriginalDescription(description);
-      searchText = description;
-    }
-    else {
-      searchText = originalDescription;
-    }
+    const now = new Date()
+    const inFifteenDays = new Date(new Date(now).setDate(now.getDate() + 15))
+    const inSixtyDays = new Date(new Date(now).setDate(now.getDate() + 60))
+    const inNinetyDays = new Date(new Date(now).setDate(now.getDate() + 90))
 
-    // Send wait event to display progress bar
-    document.dispatchEvent(new Event("showWait"));
+    setMilestones([
+      {
+        name: "Projekt Definition",
+        date: now.toLocaleString()
+      },
+      {
+        name: "Projekt Start",
+        date: inFifteenDays.toLocaleDateString()
+      },
+      {
+        name: "Projekt Sprint 1",
+        date: inSixtyDays.toLocaleDateString()
+      },
+    ])
 
-    setGenProcessing(true);
     fetch(import.meta.env.VITE_SERVICE_URL + "/assistant/prompt", {
       body: JSON.stringify({
-        "question": `Generate a paragraph summary of 
-             a medical software product that ${searchText}.`,
-        "model": "text-bison"
+        "question": `Based on the following text, Based on the following text, create a good product name in three words in plain text.
+
+          Here's the text: ${newInput}`,
+        "model": "text-bison",
+        "output": "TEXT"
       }),
       method: "POST",
       headers: {
@@ -65,15 +81,74 @@ export function ProjectNew(props: {
         return response.json();
       })
       .then((data: { question: string, answer: string }) => {
-        setDescription(data.answer);
-        setDescriptionHelpText("You can click AI Remix again for another try, change the description manually, or press submit to continue.");
-        setGenProcessing(false);
-        // Send wait event to display progress bar
-        document.dispatchEvent(new Event("hideWait"));
+        setName(data.answer);
+      });
 
-        // setDisplayGenDescription(true);
-        //document.getElementById("project_new_generated_text").innerText = data.answer
-        //setGenDescription(data.answer);
+    fetch(import.meta.env.VITE_SERVICE_URL + "/assistant/prompt", {
+      body: JSON.stringify({
+        "question": `Based on the following text, what is the primary organ in one or two words?
+
+          Here's the text: ${newInput}`,
+        "model": "text-bison",
+        "output": "TEXT"
+      }),
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data: { question: string, answer: string }) => {
+        setOrgan(data.answer);
+      });
+
+    fetch(import.meta.env.VITE_SERVICE_URL + "/assistant/prompt", {
+      body: JSON.stringify({
+        "question": `Based on the following text, what is the primary disease being diagnosed in one or two words?
+
+          Here's the text: ${newInput}`,
+        "model": "text-bison",
+        "output": "TEXT"
+      }),
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data: { question: string, answer: string }) => {
+        setDisease(data.answer);
+        setDuetMainThinking(false);
+      });
+
+    fetch(import.meta.env.VITE_SERVICE_URL + "/assistant/code", {
+      body: JSON.stringify({
+        "question": `Write a python module based on the following description.
+
+          ${newInput}`
+      }),
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data: { question: string, answer: string }) => {
+        setDuetCodeThinking(false);
+        setCode([{
+          "name": "Python model 1",
+          "type": "Python 3",
+          "code": data.answer
+        }]);
       });
   }
 
@@ -180,7 +255,7 @@ export function ProjectNew(props: {
 
       <MainMenu>
         <MainMenuItem item={{ id: "environments", text: "My Projects", icon: box, route: "/home", selected: true }} />
-        <MainMenuItem item={{ id: "experiments", text: "My Workbenches", icon: flask, route: "/experiments", selected: false }} />
+        <MainMenuItem item={{ id: "experiments", text: "My Workbenches", icon: flask, route: "/workbenches", selected: false }} />
         <MainMenuItem item={{ id: "datasets", text: "Datasets", icon: data, route: "/datasets", selected: false }} />
         <MainMenuItem item={{ id: "assistant", text: "AI Assistant", icon: wand, route: "/assistant", selected: false }} />
       </MainMenu>
@@ -188,49 +263,103 @@ export function ProjectNew(props: {
       <div class="project_new_main_panel">
 
         <div class="project_new_main_panel_content" autocomplete="off">
-
-          <div class="project_new_main_panel_header">
-            New Project
-          </div>
+          {!name
+            ?
+            <div class="project_new_main_panel_header">
+              New Project
+            </div>
+            :
+            <div class="project_new_main_panel_header">
+              {name}
+            </div>
+          }
 
           <InputField id="project_new_description" placeholder="Project Description"
             focus={true} type="multiline" rows={12}
             value={description} setValue={onDescriptionInput}
-            helpText={descriptionHelpText}
+            duetEnabled={true} duetInitialPrompt={"Write a concise description of a SaMD solution to detect liver lesions with 96% accuracy."}
           />
+          <br />
 
-          {/* {displayGenDescription &&
+          {duetMainThinking &&
+            <img class="project_new_duet_thinking_icon" src={sparkle_thinking}></img>
+          }
 
-            <div class="project_new_gen_description_panel">
-              <InputField id="project_new_gen_description" placeholder="AI Generated Description"
-                focus={true} type="multiline" rows={14}
-                value={genDescription} setValue={setGenDescription}
-                helpText="This AI generated description will also be saved with the project. You can use it, remix it, or ignore it at any time."
-              />
-            </div>
-          } */}
+          <InputField id="project_name" placeholder="Name" focus={false} type="singleline"
+            rows={1} value={name} setValue={setName}
+            duetEnabled={true} duetInitialPrompt="Create an innovative name for a new SaMD product in one word." />
 
-          <div class="project_new_generated_description">
+          <InputField id="project_organ" placeholder="Organ" focus={false} type="singleline"
+            rows={1} value={organ} setValue={setOrgan} />
 
-            <button onClick={onAIRemix} title="Click to generate AI version" class="project_new_generated_button">
-              {genProcessing
-                ?
-                <img class="project_new_gen_button_icon" src={sparkle_thinking}></img>
-                :
-                <img class="project_new_gen_button_icon" src={wand}></img>
+          <InputField id="project_disease" placeholder="Disease" focus={false} type="singleline"
+            rows={1} value={disease} setValue={setDisease} />
+
+          <br />
+
+          {(duetCodeThinking || code.length > 0) &&
+            <div>
+              <h2>Initial Code</h2>
+              {duetCodeThinking &&
+                <img class="project_new_duet_thinking_icon" src={sparkle_thinking}></img>
               }
-              <span class="project_new_generated_button">AI Assist</span>
-            </button>
+              <table class="styled-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Language</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {code.map((c) => (
+                    <tr onClick={() => { setSelectedCode(c.code) }}>
+                      <td>{c.name}</td>
+                      <td>{c.type}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          }
 
-            {/* <InputField id="project_generated_description" placeholder="AI Assistant Version"
-              focus={false} type="multiline" rows={10}
-              value={genDescription} setValue={setGenDescription}
-            /> */}
+          <h2>Team</h2>
+          <InputField id="project_disease" placeholder="Team" focus={false} type="singleline"
+            rows={1} value={team} setValue={setTeam} />
 
-          </div>
+          <br />
+
+          {milestones.length > 0 &&
+            <div>
+              <h2>Milestones</h2>
+              <table class="styled-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {milestones.map((c) => (
+                    <tr>
+                      <td>{c.name}</td>
+                      <td>{c.date}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          }
+
+          {selectedCode &&
+            <div class="popup_dialog" onClick={() => { setSelectedCode(""); }}>
+              <div class="popup_dialog_content" contentEditable={true} dangerouslySetInnerHTML={{ __html: selectedCode }} onClick={(e) => { e.stopPropagation(); }}>
+              </div>
+            </div>
+          }
+
         </div>
         <div class="bottom_buttons_panel">
-          <InputButton text="Next" type="primary" action={() => submit()} />
+          <InputButton text="Submit" type="primary" action={() => submit()} />
           <InputButton text="Cancel" type="secondary" action={() => route("/home")} />
         </div>
       </div>

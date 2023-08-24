@@ -15,6 +15,7 @@ from vertexai.preview.language_models import (
     ChatModel,
     InputOutputTextPair,
     TextGenerationModel,
+    CodeGenerationModel,
 )
 from langchain.chat_models import ChatVertexAI
 from langchain.prompts.chat import (
@@ -50,6 +51,8 @@ urls = (
     "chat_manager",
     "/assistant/prompt",
     "prompt_manager",
+    "/assistant/code",
+    "code_manager",
     "/assistant/langchain",
     "langchain_manager",
     "/data(.*)",
@@ -87,6 +90,12 @@ if not prompt_model:
 
 
 class language_manager:
+    def OPTIONS(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header("Access-Control-Allow-Methods", "*")
+        web.header("Access-Control-Allow-Headers", "*")
+        return "200 OK"
+
     def POST(self):
         inputData = {}
         type_ = language_v1.Document.Type.PLAIN_TEXT
@@ -151,7 +160,7 @@ class language_manager:
             "answer the following question with either true or false. Is"
             + term
             + " a human organ?",
-            **parameters
+            **parameters,
         )
 
         return response.text
@@ -168,31 +177,65 @@ class language_manager:
             "answer the following question with either true or false. Is"
             + term
             + " a disease or condition that humans can get?",
-            **parameters
+            **parameters,
         )
 
         return response.text
 
 
+class code_manager:
+    def OPTIONS(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header("Access-Control-Allow-Methods", "*")
+        web.header("Access-Control-Allow-Headers", "*")
+        return "200 OK"
+
+    def POST(self):
+        inputData = {}
+        question = ""
+
+        if web.data():
+            inputData = json.loads(web.data())
+            question = inputData["question"]
+
+        parameters = {"max_output_tokens": 1024, "temperature": 0.2}
+        model = CodeGenerationModel.from_pretrained("code-bison")
+        response = model.predict(question, **parameters)
+        print(f"Response from Model: {response.text}")
+
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header("Content-Type", "application/json")
+        return json.dumps({"question": question, "answer": response.text})
+
+
 class prompt_manager:
+    def OPTIONS(self):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header("Access-Control-Allow-Methods", "*")
+        web.header("Access-Control-Allow-Headers", "*")
+        return "200 OK"
+
     def POST(self):
         inputData = {}
         question = ""
         model = prompt_model
+        output = "HTML"
         if web.data():
-            print("have web data")
             inputData = json.loads(web.data())
             question = inputData["question"]
             if "model" in inputData:
                 model = inputData["model"]
 
-        print("Calling vertex LLM model with question: " + question)
+            if "output" in inputData:
+                output = inputData["output"]
 
-        answer = predict_large_language_model(model, 0.2, 256, 0.8, 40, question)
+        answer = predict_large_language_model(model, 0.2, 512, 0.8, 40, question)
+
+        if output == "HTML":
+            answer = answer.replace("\n", "<br/>")
 
         web.header("Access-Control-Allow-Origin", "*")
         web.header("Content-Type", "application/json")
-
         return json.dumps({"question": question, "answer": answer})
 
 
@@ -618,7 +661,7 @@ def predict_large_language_model(
     model = TextGenerationModel.from_pretrained(model_name)
     response = model.predict(question, **parameters)
 
-    return response.text.replace("\n", "<br/>")
+    return response.text
 
 
 if __name__ == "__main__":

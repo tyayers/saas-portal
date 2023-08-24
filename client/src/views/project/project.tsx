@@ -99,8 +99,8 @@ export function Project(props: { id: string; getProject: (id: string) => Project
       </div>
 
       {docVisible &&
-        <div class="project_popup" onClick={() => { setDocVisible(false); }}>
-          <div class="project_popup_doc" contentEditable={true} dangerouslySetInnerHTML={{ __html: docContent }} onClick={(e) => { e.stopPropagation(); }}>
+        <div class="popup_dialog" onClick={() => { setDocVisible(false); }}>
+          <div class="popup_dialog_content" contentEditable={true} dangerouslySetInnerHTML={{ __html: docContent }} onClick={(e) => { e.stopPropagation(); }}>
 
           </div>
         </div>

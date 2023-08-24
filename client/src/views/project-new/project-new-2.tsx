@@ -87,7 +87,7 @@ export function ProjectNew2(props: {
 
       <MainMenu>
         <MainMenuItem item={{ id: "environments", text: "My Projects", icon: box, route: "/home", selected: true }} />
-        <MainMenuItem item={{ id: "experiments", text: "My Workbenches", icon: flask, route: "/experiments", selected: false }} />
+        <MainMenuItem item={{ id: "experiments", text: "My Workbenches", icon: flask, route: "/workbenches", selected: false }} />
         <MainMenuItem item={{ id: "datasets", text: "Datasets", icon: data, route: "/datasets", selected: false }} />
         <MainMenuItem item={{ id: "assistant", text: "AI Assistant", icon: wand, route: "/assistant", selected: false }} />
       </MainMenu>

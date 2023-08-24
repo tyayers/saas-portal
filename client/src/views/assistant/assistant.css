@@ -47,3 +47,19 @@
   position: relative;
   top: 2px;
 }
+
+.assistant_thinking {
+  margin-right: 14px;
+  margin-left: 33px;
+  margin-top: 14px;
+  padding: 6px;
+  width: calc(100% - 48px);
+  border-radius: 14px;
+  background-color: #f1f3f4;
+}
+
+.assistant_thinking_text {
+  position: relative;
+  top: -8px;
+  left: 2px;
+}
