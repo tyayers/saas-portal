@@ -76,6 +76,8 @@ if not firebase_admin._apps:
         },
     )
 
+db = firestore.client()
+
 prompt_model = os.environ.get("PROMPT_MODEL")
 if not prompt_model:
     prompt_model = "text-bison"
@@ -390,8 +392,6 @@ class redirect_manager:
 
 
 class data_manager:
-    db = firestore.client()
-
     def OPTIONS(self, id):
         web.header("Access-Control-Allow-Origin", "*")
         web.header("Access-Control-Allow-Methods", "*")
@@ -406,14 +406,14 @@ class data_manager:
             pieces.remove("")
 
         if len(pieces) == 1:
-            forms_ref = self.db.collection(pieces[0])
+            forms_ref = db.collection(pieces[0])
             forms = forms_ref.stream()
             new_result = {pieces[0]: []}
 
             for form in forms:
                 new_result[pieces[0]].append(form.to_dict())
         else:
-            doc_ref = self.db.collection(pieces[0]).document(pieces[1])
+            doc_ref = db.collection(pieces[0]).document(pieces[1])
             doc = doc_ref.get()
             new_result = doc.to_dict()
 
@@ -433,7 +433,7 @@ class data_manager:
 
         logging.info(json.dumps(data))
 
-        self.db.collection(pieces[0]).document(data["id"]).set(data)
+        db.collection(pieces[0]).document(data["id"]).set(data)
 
         web.header("Access-Control-Allow-Origin", "*")
         web.header("Content-Type", "application/json")
@@ -448,7 +448,7 @@ class data_manager:
 
         logging.info(json.dumps(data))
 
-        self.db.collection(pieces[0]).document(data["id"]).set(data)
+        db.collection(pieces[0]).document(data["id"]).set(data)
 
         pprint.pprint(data)
 
@@ -462,7 +462,7 @@ class data_manager:
             pieces.remove("")
 
         if len(pieces) > 1:
-            self.db.collection(pieces[0]).document(pieces[1]).delete()
+            db.collection(pieces[0]).document(pieces[1]).delete()
 
         web.header("Access-Control-Allow-Origin", "*")
         web.header("Access-Control-Allow-Methods", "*")
@@ -470,7 +470,11 @@ class data_manager:
 
 
 class docs_manager:
-    db = firestore.client()
+    def OPTIONS(self, id):
+        web.header("Access-Control-Allow-Origin", "*")
+        web.header("Access-Control-Allow-Methods", "*")
+        web.header("Access-Control-Allow-Headers", "*")
+        return "200 OK"
 
     def POST(self, id):
         pieces = id.split("/")
@@ -497,7 +501,7 @@ class docs_manager:
 
         data["status"] = "Ready"
 
-        self.db.collection("projects").document(pieces[0]).set(data)
+        db.collection("projects").document(pieces[0]).set(data)
 
         web.header("Access-Control-Allow-Origin", "*")
         web.header("Content-Type", "application/json")

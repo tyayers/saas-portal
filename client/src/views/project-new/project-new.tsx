@@ -195,7 +195,7 @@ export function ProjectNew(props: {
       newProject.id = name.toLowerCase().replace(" ", "_") + "_" + (new Date()).getTime().toString()
       newProject.name = name;
       newProject.description = description;
-      props.setCurrentProject(newProject);
+      //props.setCurrentProject(newProject);
 
       fetch(import.meta.env.VITE_SERVICE_URL + "/data/projects", {
         body: JSON.stringify(newProject),
