@@ -488,7 +488,7 @@ class docs_manager:
         generatedDevPlanDoc = self.generateSoftwareDevelopmentPlan(
             data["name"],
             "Software Development Plan",
-            data["organs"][0],
+            data["organ"],
             data["disease"],
         )
 

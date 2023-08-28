@@ -17,6 +17,7 @@ export function Project(props: { id: string; getProject: (id: string) => Project
 
   const [project, setProject] = useState(props.getProject(props.id));
   const [docContent, setDocContent] = useState("");
+  const [codeContent, setCodeContent] = useState("");
   const [docVisible, setDocVisible] = useState(false);
 
   useEffect(() => {
@@ -60,8 +61,8 @@ export function Project(props: { id: string; getProject: (id: string) => Project
 
         <h3>Overview</h3>
         <span class="standard_main_paragraph"><b>Description: </b><span>{project?.description}</span></span>
-        {project?.organs &&
-          <span class="standard_main_paragraph"><b>Organs: </b><span>{project?.organs}</span></span>
+        {project?.organ &&
+          <span class="standard_main_paragraph"><b>Organs: </b><span>{project?.organ}</span></span>
         }
         {project?.disease &&
           <span class="standard_main_paragraph"><b>Disease: </b>{project?.disease}</span>
@@ -81,7 +82,7 @@ export function Project(props: { id: string; getProject: (id: string) => Project
             </thead>
             <tbody>
               {project?.code && project.code.map((c) => (
-                <tr onClick={() => { }}>
+                <tr onClick={() => { setCodeContent(c.code) }}>
                   <td>{c.name}</td>
                   <td>{c.type}</td>
                 </tr>
@@ -143,6 +144,16 @@ export function Project(props: { id: string; getProject: (id: string) => Project
         <div class="popup_dialog" onClick={() => { setDocVisible(false); }}>
           <div class="popup_dialog_content" contentEditable={true} dangerouslySetInnerHTML={{ __html: docContent }} onClick={(e) => { e.stopPropagation(); }}>
 
+          </div>
+        </div>
+      }
+
+      {codeContent &&
+        <div class="popup_dialog" onClick={() => { setCodeContent(""); }}>
+          <div class="popup_dialog_content" onClick={(e) => { e.stopPropagation(); }}>
+            <md-block>
+              {codeContent}
+            </md-block>
           </div>
         </div>
       }
